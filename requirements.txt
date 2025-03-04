@@ -1,0 +1,12 @@
+streamlit
+pandas
+requests
+python-dotenv
+chromadb
+langchain
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-auth-transport
+vertexai
+google-cloud-aiplatform

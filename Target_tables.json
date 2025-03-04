@@ -1,0 +1,4203 @@
+[
+    {
+        "file_name": "dbo.Site.Table.sql",
+        "table_name": "dbo.Site",
+        "columns": [
+            [
+                "SiteId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "SiteName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "SiteId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Site] ADD  CONSTRAINT [DF_Site_SiteId]  DEFAULT (newid()) FOR [SiteId]",
+            "ALTER TABLE [dbo].[Site] ADD  CONSTRAINT [DF_Site_Inactive]  DEFAULT ((0)) FOR [Inactive]",
+            "ALTER TABLE [dbo].[Site] ADD  CONSTRAINT [DF_Site_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[Site] ADD  CONSTRAINT [DF_Site_DateLastMoified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.Contrast.Table.sql",
+        "table_name": "dbo.Contrast",
+        "columns": [
+            [
+                "ContrastId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ConsumptionDateTime",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "HandledByStaffId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "Amount",
+                "[decimal](10, 3) NOT NULL"
+            ],
+            [
+                "AmountUOM",
+                "[nvarchar](25) NULL"
+            ],
+            [
+                "AdverseEvent",
+                "[bit] NOT NULL"
+            ],
+            [
+                "AdverseEffects",
+                "[nvarchar](2000) NULL"
+            ],
+            [
+                "Billable",
+                "[bit] NOT NULL"
+            ],
+            [
+                "BillingHold",
+                "[bit] NOT NULL"
+            ],
+            [
+                "BillingExportId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ContrastId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Staff"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Contrast] ADD  CONSTRAINT [DF_Contrast_ContrastId]  DEFAULT (newid()) FOR [ContrastId]",
+            "ALTER TABLE [dbo].[Contrast] ADD  CONSTRAINT [DF_Contrast_AdverseEvent]  DEFAULT ((0)) FOR [AdverseEvent]",
+            "ALTER TABLE [dbo].[Contrast] ADD  CONSTRAINT [DF_Contrast_Billable]  DEFAULT ((0)) FOR [Billable]",
+            "ALTER TABLE [dbo].[Contrast] ADD  CONSTRAINT [DF_Contrast_BillingHold]  DEFAULT ((0)) FOR [BillingHold]",
+            "ALTER TABLE [dbo].[Contrast] ADD  CONSTRAINT [DF_Contrast_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[Contrast] ADD  CONSTRAINT [DF_Contrast_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[Contrast]  WITH CHECK ADD  CONSTRAINT [FK_Contrast_Staff] FOREIGN KEY([HandledByStaffId])\nREFERENCES [dbo].[Staff] ([StaffId])",
+            "ALTER TABLE [dbo].[Contrast] CHECK CONSTRAINT [FK_Contrast_Staff]"
+        ]
+    },
+    {
+        "file_name": "dbo.InventoryTransactionTypeOverride.Table.sql",
+        "table_name": "dbo.InventoryTransactionTypeOverride",
+        "columns": [
+            [
+                "InventoryTransactionTypeOverrideId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InventoryTransactionTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "FacilityId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "CostOrAdjustment",
+                "[bit] NOT NULL"
+            ],
+            [
+                "IsBillable",
+                "[bit] NOT NULL"
+            ],
+            [
+                "IsUsage",
+                "[bit] NOT NULL"
+            ],
+            [
+                "UseInEncounter",
+                "[bit] NOT NULL"
+            ],
+            [
+                "SortOrder",
+                "[int] NOT NULL"
+            ],
+            [
+                "Alias",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "AliasAlternate",
+                "[nvarchar](50) NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "InventoryTransactionTypeOverrideId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.Facility",
+            "dbo.InventoryTransactionType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[InventoryTransactionTypeOverride] ADD  CONSTRAINT [DF_InventoryTransactionTypeOverride_CostOrAdjustment]  DEFAULT ((0)) FOR [CostOrAdjustment]",
+            "ALTER TABLE [dbo].[InventoryTransactionTypeOverride] ADD  CONSTRAINT [DF_InventoryTransactionTypeOverride_IsBillable]  DEFAULT ((0)) FOR [IsBillable]",
+            "ALTER TABLE [dbo].[InventoryTransactionTypeOverride] ADD  CONSTRAINT [DF_InventoryTransactionTypeOverride_IsUsage]  DEFAULT ((0)) FOR [IsUsage]",
+            "ALTER TABLE [dbo].[InventoryTransactionTypeOverride] ADD  CONSTRAINT [DF_InventoryTransactionTypeOverride_UseInEncounter]  DEFAULT ((0)) FOR [UseInEncounter]",
+            "ALTER TABLE [dbo].[InventoryTransactionTypeOverride]  WITH CHECK ADD  CONSTRAINT [FK_InventoryTransactionTypeOverride_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[InventoryTransactionTypeOverride] CHECK CONSTRAINT [FK_InventoryTransactionTypeOverride_Department]",
+            "ALTER TABLE [dbo].[InventoryTransactionTypeOverride]  WITH CHECK ADD  CONSTRAINT [FK_InventoryTransactionTypeOverride_Facility] FOREIGN KEY([FacilityId])\nREFERENCES [dbo].[Facility] ([FacilityId])",
+            "ALTER TABLE [dbo].[InventoryTransactionTypeOverride] CHECK CONSTRAINT [FK_InventoryTransactionTypeOverride_Facility]",
+            "ALTER TABLE [dbo].[InventoryTransactionTypeOverride]  WITH CHECK ADD  CONSTRAINT [FK_InventoryTransactionTypeOverride_InventoryTransactionType] FOREIGN KEY([InventoryTransactionTypeId])\nREFERENCES [dbo].[InventoryTransactionType] ([InventoryTransactionTypeId])",
+            "ALTER TABLE [dbo].[InventoryTransactionTypeOverride] CHECK CONSTRAINT [FK_InventoryTransactionTypeOverride_InventoryTransactionType]"
+        ]
+    },
+    {
+        "file_name": "dbo.CPTCodeXRefOverride.Table.sql",
+        "table_name": "dbo.CPTCodeXRefOverride",
+        "columns": [
+            [
+                "CPTCodeXRefOverrideId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "FacilityId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "CPTCodeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProcedureCode",
+                "[nvarchar](100) NOT NULL"
+            ],
+            [
+                "ProcedureDescription",
+                "[nvarchar](100) NULL"
+            ],
+            [
+                "CPTModifierId",
+                "[uniqueidentifier] NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "CPTCodeXRefOverrideId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.CPTCode",
+            "dbo.CPTModifier"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[CPTCodeXRefOverride] ADD  CONSTRAINT [DF_CPTCodeXRefOverrideCPTCodeXRefId]  DEFAULT (newid()) FOR [CPTCodeXRefOverrideId]",
+            "ALTER TABLE [dbo].[CPTCodeXRefOverride]  WITH CHECK ADD  CONSTRAINT [FK_CPTCodeXRefOverrideCPTCode] FOREIGN KEY([CPTCodeId])\nREFERENCES [dbo].[CPTCode] ([CPTCodeId])",
+            "ALTER TABLE [dbo].[CPTCodeXRefOverride] CHECK CONSTRAINT [FK_CPTCodeXRefOverrideCPTCode]",
+            "ALTER TABLE [dbo].[CPTCodeXRefOverride]  WITH CHECK ADD  CONSTRAINT [FK_CPTCodeXRefOverrideCPTModifier] FOREIGN KEY([CPTModifierId])\nREFERENCES [dbo].[CPTModifier] ([CPTModifierId])",
+            "ALTER TABLE [dbo].[CPTCodeXRefOverride] CHECK CONSTRAINT [FK_CPTCodeXRefOverrideCPTModifier]"
+        ]
+    },
+    {
+        "file_name": "dbo.StartPage.Table.sql",
+        "table_name": "dbo.StartPage",
+        "columns": [
+            [
+                "StartPageId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "StartPageName",
+                "[nvarchar](255) NOT NULL"
+            ],
+            [
+                "UserTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "URL",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "MenuHeader",
+                "[nvarchar](20) NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "StartPageId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.UserType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[StartPage]  WITH CHECK ADD  CONSTRAINT [FK_StartPage_UserType] FOREIGN KEY([UserTypeId])\nREFERENCES [dbo].[UserType] ([UserTypeId])",
+            "ALTER TABLE [dbo].[StartPage] CHECK CONSTRAINT [FK_StartPage_UserType]"
+        ]
+    },
+    {
+        "file_name": "dbo.InventoryTransactionType.Table.sql",
+        "table_name": "dbo.InventoryTransactionType",
+        "columns": [
+            [
+                "InventoryTransactionTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InventoryTransactionTypeName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "AddOrRemove",
+                "[nchar](1) NOT NULL"
+            ],
+            [
+                "UserTypeId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "SystemDefined",
+                "[bit] NOT NULL"
+            ],
+            [
+                "CostOrAdjustment",
+                "[bit] NOT NULL"
+            ],
+            [
+                "IsBillable",
+                "[bit] NOT NULL"
+            ],
+            [
+                "IsUsage",
+                "[bit] NOT NULL"
+            ],
+            [
+                "IsRecount",
+                "[bit] NOT NULL"
+            ],
+            [
+                "IsVendorOwned",
+                "[bit] NOT NULL"
+            ],
+            [
+                "UseInEncounter",
+                "[bit] NOT NULL"
+            ],
+            [
+                "UsageExport",
+                "[bit] NOT NULL"
+            ],
+            [
+                "SortOrder",
+                "[int] NOT NULL"
+            ],
+            [
+                "Alias",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "AliasAlternate",
+                "[nvarchar](50) NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "InventoryTransactionTypeId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.UserType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[InventoryTransactionType] ADD  CONSTRAINT [DF_InventoryTransactionType_SystemDefined]  DEFAULT ((0)) FOR [SystemDefined]",
+            "ALTER TABLE [dbo].[InventoryTransactionType] ADD  CONSTRAINT [DF_InventoryTransactionType_CostOrAdjustment]  DEFAULT ((0)) FOR [CostOrAdjustment]",
+            "ALTER TABLE [dbo].[InventoryTransactionType] ADD  CONSTRAINT [DF_InventoryTransactionType_IsBillable]  DEFAULT ((0)) FOR [IsBillable]",
+            "ALTER TABLE [dbo].[InventoryTransactionType] ADD  CONSTRAINT [DF_InventoryTransactionType_IsUsage]  DEFAULT ((0)) FOR [IsUsage]",
+            "ALTER TABLE [dbo].[InventoryTransactionType] ADD  CONSTRAINT [DF_InventoryTransactionType_IsRecount]  DEFAULT ((0)) FOR [IsRecount]",
+            "ALTER TABLE [dbo].[InventoryTransactionType] ADD  CONSTRAINT [DF_InventoryTransactionType_IsVendorOwned]  DEFAULT ((0)) FOR [IsVendorOwned]",
+            "ALTER TABLE [dbo].[InventoryTransactionType] ADD  CONSTRAINT [DF_InventoryTransactionType_UseInEncounter]  DEFAULT ((0)) FOR [UseInEncounter]",
+            "ALTER TABLE [dbo].[InventoryTransactionType] ADD  CONSTRAINT [DF_InventoryTransactionType_UsageExport]  DEFAULT ((0)) FOR [UsageExport]",
+            "ALTER TABLE [dbo].[InventoryTransactionType] ADD  CONSTRAINT [DF_InventoryTransactionType_SortOrder]  DEFAULT ((0)) FOR [SortOrder]",
+            "ALTER TABLE [dbo].[InventoryTransactionType]  WITH CHECK ADD  CONSTRAINT [FK_InventoryTransactionType_UserType] FOREIGN KEY([UserTypeId])\nREFERENCES [dbo].[UserType] ([UserTypeId])",
+            "ALTER TABLE [dbo].[InventoryTransactionType] CHECK CONSTRAINT [FK_InventoryTransactionType_UserType]",
+            "ALTER TABLE [dbo].[InventoryTransactionType]  WITH CHECK ADD  CONSTRAINT [CK_InventoryTransactionType_AddOrRemove] CHECK  (([AddOrRemove]='+' OR [AddOrRemove]='-'))",
+            "ALTER TABLE [dbo].[InventoryTransactionType] CHECK CONSTRAINT [CK_InventoryTransactionType_AddOrRemove]"
+        ]
+    },
+    {
+        "file_name": "dbo.EncounterProduct.Table.sql",
+        "table_name": "dbo.EncounterProduct",
+        "columns": [
+            [
+                "EncounterProductId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "EncounterId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProductVariantId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InventoryTransactionTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "Quantity",
+                "[int] NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "Deleted",
+                "[bit] NOT NULL"
+            ],
+            [
+                "Consigned",
+                "[bit] NOT NULL"
+            ],
+            [
+                "ContrastId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "Notes",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "ImplantDetailId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "TissueInspectionId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "TissuePreparationId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "BillingExportId",
+                "[uniqueidentifier] NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "EncounterProductId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Contrast",
+            "dbo.Encounter",
+            "dbo.ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead",
+            "dbo.InventoryTransactionType",
+            "dbo.ProductVariant",
+            "dbo.TissueInspection_TBD",
+            "dbo.TissuePreparation_TBD"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[EncounterProduct] ADD  CONSTRAINT [DF_EncounterProduct_EncounterProductId]  DEFAULT (newid()) FOR [EncounterProductId]",
+            "ALTER TABLE [dbo].[EncounterProduct] ADD  CONSTRAINT [DF_EncounterProduct_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[EncounterProduct] ADD  CONSTRAINT [DF_EncounterProduct_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[EncounterProduct] ADD  CONSTRAINT [DF_EncounterProduct_IsDeleted]  DEFAULT ((0)) FOR [Deleted]",
+            "ALTER TABLE [dbo].[EncounterProduct] ADD  CONSTRAINT [DF_EncounterProduct_IsConsignment]  DEFAULT ((0)) FOR [Consigned]",
+            "ALTER TABLE [dbo].[EncounterProduct]  WITH CHECK ADD  CONSTRAINT [FK_EncounterProduct_Contrast] FOREIGN KEY([ContrastId])\nREFERENCES [dbo].[Contrast] ([ContrastId])",
+            "ALTER TABLE [dbo].[EncounterProduct] CHECK CONSTRAINT [FK_EncounterProduct_Contrast]",
+            "ALTER TABLE [dbo].[EncounterProduct]  WITH CHECK ADD  CONSTRAINT [FK_EncounterProduct_Encounters] FOREIGN KEY([EncounterId])\nREFERENCES [dbo].[Encounter] ([EncounterId])",
+            "ALTER TABLE [dbo].[EncounterProduct] CHECK CONSTRAINT [FK_EncounterProduct_Encounters]",
+            "ALTER TABLE [dbo].[EncounterProduct]  WITH CHECK ADD  CONSTRAINT [FK_EncounterProduct_ImplantDetail] FOREIGN KEY([ImplantDetailId])\nREFERENCES [dbo].[ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead] ([ImplantDetailId])",
+            "ALTER TABLE [dbo].[EncounterProduct] CHECK CONSTRAINT [FK_EncounterProduct_ImplantDetail]",
+            "ALTER TABLE [dbo].[EncounterProduct]  WITH CHECK ADD  CONSTRAINT [FK_EncounterProduct_InventoryTransactionType] FOREIGN KEY([InventoryTransactionTypeId])\nREFERENCES [dbo].[InventoryTransactionType] ([InventoryTransactionTypeId])",
+            "ALTER TABLE [dbo].[EncounterProduct] CHECK CONSTRAINT [FK_EncounterProduct_InventoryTransactionType]",
+            "ALTER TABLE [dbo].[EncounterProduct]  WITH CHECK ADD  CONSTRAINT [FK_EncounterProduct_ProductVariant] FOREIGN KEY([ProductVariantId])\nREFERENCES [dbo].[ProductVariant] ([ProductVariantId])",
+            "ALTER TABLE [dbo].[EncounterProduct] CHECK CONSTRAINT [FK_EncounterProduct_ProductVariant]",
+            "ALTER TABLE [dbo].[EncounterProduct]  WITH CHECK ADD  CONSTRAINT [FK_EncounterProduct_TissueInspection] FOREIGN KEY([TissueInspectionId])\nREFERENCES [dbo].[TissueInspection_TBD] ([TissueInspectionId])",
+            "ALTER TABLE [dbo].[EncounterProduct] CHECK CONSTRAINT [FK_EncounterProduct_TissueInspection]",
+            "ALTER TABLE [dbo].[EncounterProduct]  WITH CHECK ADD  CONSTRAINT [FK_EncounterProduct_TissuePreparation] FOREIGN KEY([TissuePreparationId])\nREFERENCES [dbo].[TissuePreparation_TBD] ([TissuePreparationId])",
+            "ALTER TABLE [dbo].[EncounterProduct] CHECK CONSTRAINT [FK_EncounterProduct_TissuePreparation]"
+        ]
+    },
+    {
+        "file_name": "dbo.Scope.Table.sql",
+        "table_name": "dbo.Scope",
+        "columns": [
+            [
+                "ScopeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ScopeName",
+                "[nvarchar](100) NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ScopeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Scope] ADD  CONSTRAINT [DF_Scope_ScopeId]  DEFAULT (newid()) FOR [ScopeId]"
+        ]
+    },
+    {
+        "file_name": "dbo.RFIDAdditionalTag.Table.sql",
+        "table_name": "dbo.RFIDAdditionalTag",
+        "columns": [
+            [
+                "RFIDAdditionalTagId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "RFIDTag",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "InventoryQuantityId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModifled",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "RFIDAdditionalTagId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.InventoryQuantity"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[RFIDAdditionalTag] ADD  CONSTRAINT [DF_RFIDAdditionalTag_RFIDAdditionalTagId]  DEFAULT (newid()) FOR [RFIDAdditionalTagId]",
+            "ALTER TABLE [dbo].[RFIDAdditionalTag] ADD  CONSTRAINT [DF_RFIDAdditionalTag_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[RFIDAdditionalTag] ADD  CONSTRAINT [DF_RFIDAdditionalTag_DateLastModifled]  DEFAULT (getdate()) FOR [DateLastModifled]",
+            "ALTER TABLE [dbo].[RFIDAdditionalTag]  WITH CHECK ADD  CONSTRAINT [FK_RFIDAdditionalTag_InventoryQuantity] FOREIGN KEY([InventoryQuantityId])\nREFERENCES [dbo].[InventoryQuantity] ([InventoryQuantityId])",
+            "ALTER TABLE [dbo].[RFIDAdditionalTag] CHECK CONSTRAINT [FK_RFIDAdditionalTag_InventoryQuantity]"
+        ]
+    },
+    {
+        "file_name": "dbo.EncounterStatus.Table.sql",
+        "table_name": "dbo.EncounterStatus",
+        "columns": [
+            [
+                "StatusId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "StatusName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "StatusId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[EncounterStatus] ADD  CONSTRAINT [DF_EncounterStatus_StatusId]  DEFAULT (newid()) FOR [StatusId]",
+            "ALTER TABLE [dbo].[EncounterStatus] ADD  CONSTRAINT [DF_EncounterStatus_Inactive]  DEFAULT ((0)) FOR [Inactive]",
+            "ALTER TABLE [dbo].[EncounterStatus] ADD  CONSTRAINT [DF_EncounterStatus_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[EncounterStatus] ADD  CONSTRAINT [DF_EncounterStatus_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.Facility.Table.sql",
+        "table_name": "dbo.Facility",
+        "columns": [
+            [
+                "FacilityId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "FacilityName",
+                "[nvarchar](100) NOT NULL"
+            ],
+            [
+                "CustomerId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "Address",
+                "[nvarchar](150) NULL"
+            ],
+            [
+                "City",
+                "[nvarchar](150) NULL"
+            ],
+            [
+                "StateRegion",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "PostalCode",
+                "[nvarchar](16) NULL"
+            ],
+            [
+                "CountryCode",
+                "[nvarchar](3) NULL"
+            ],
+            [
+                "CountryName",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "MainPhone",
+                "[nvarchar](30) NULL"
+            ],
+            [
+                "MainFax",
+                "[nvarchar](30) NULL"
+            ],
+            [
+                "LogoImage",
+                "[image] NULL"
+            ],
+            [
+                "LogoFileURL",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "TimeZoneOffset",
+                "[tinyint] NOT NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NOT NULL"
+            ],
+            [
+                "TestFacility",
+                "[bit] NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "FacilityId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Facility] ADD  CONSTRAINT [DF_Facility_FacilityId]  DEFAULT (newid()) FOR [FacilityId]",
+            "ALTER TABLE [dbo].[Facility] ADD  CONSTRAINT [DF_Facility_TimeZoneOffset]  DEFAULT ((0)) FOR [TimeZoneOffset]",
+            "ALTER TABLE [dbo].[Facility] ADD  CONSTRAINT [DF_Facility_Inactive]  DEFAULT ((0)) FOR [Inactive]",
+            "ALTER TABLE [dbo].[Facility] ADD  CONSTRAINT [DF_Facility_TestFacility]  DEFAULT ((0)) FOR [TestFacility]",
+            "ALTER TABLE [dbo].[Facility] ADD  CONSTRAINT [DF_Facility_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[Facility] ADD  CONSTRAINT [DF_Facility_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.EncounterStaff.Table.sql",
+        "table_name": "dbo.EncounterStaff",
+        "columns": [
+            [
+                "EncounterId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "StaffId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "EncounterStaffTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "EncounterId ASC",
+                "StaffId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Encounter",
+            "dbo.Staff",
+            "dbo.StaffType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[EncounterStaff]  WITH CHECK ADD  CONSTRAINT [FK_EncounterStaff_Encounter] FOREIGN KEY([EncounterId])\nREFERENCES [dbo].[Encounter] ([EncounterId])",
+            "ALTER TABLE [dbo].[EncounterStaff] CHECK CONSTRAINT [FK_EncounterStaff_Encounter]",
+            "ALTER TABLE [dbo].[EncounterStaff]  WITH CHECK ADD  CONSTRAINT [FK_EncounterStaff_Staff] FOREIGN KEY([StaffId])\nREFERENCES [dbo].[Staff] ([StaffId])",
+            "ALTER TABLE [dbo].[EncounterStaff] CHECK CONSTRAINT [FK_EncounterStaff_Staff]",
+            "ALTER TABLE [dbo].[EncounterStaff]  WITH CHECK ADD  CONSTRAINT [FK_EncounterStaff_StaffType] FOREIGN KEY([EncounterStaffTypeId])\nREFERENCES [dbo].[StaffType] ([StaffTypeId])",
+            "ALTER TABLE [dbo].[EncounterStaff] CHECK CONSTRAINT [FK_EncounterStaff_StaffType]"
+        ]
+    },
+    {
+        "file_name": "dbo.ProcedureRoom.Table.sql",
+        "table_name": "dbo.ProcedureRoom",
+        "columns": [
+            [
+                "ProcedureRoomId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProcedureRoomNumber",
+                "[int] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProcedureRoomName",
+                "[nvarchar](100) NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ProcedureRoomId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ProcedureRoom] ADD  CONSTRAINT [DF_ProcedureRoom_ProcedureRoomId]  DEFAULT (newid()) FOR [ProcedureRoomId]",
+            "ALTER TABLE [dbo].[ProcedureRoom] ADD  CONSTRAINT [DF_ProcedureRoom_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[ProcedureRoom] ADD  CONSTRAINT [DF_ProcedureRoom_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.VisitDetail_ToBeDeleted.Table.sql",
+        "table_name": "dbo.VisitDetail_ToBeDeleted",
+        "columns": [
+            [
+                "VisitDetailId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "PatientId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "VisitTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "VisitNumber",
+                "[int] NULL"
+            ],
+            [
+                "EncounterId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "VisitDate",
+                "[datetime] NULL"
+            ],
+            [
+                "AdmissionDate",
+                "[datetime] NULL"
+            ],
+            [
+                "DischargeDate",
+                "[datetime] NULL"
+            ],
+            [
+                "PatientTypeId",
+                "[uniqueidentifier] NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "VisitDetailId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": []
+    },
+    {
+        "file_name": "dbo.CPTCode.Table.sql",
+        "table_name": "dbo.CPTCode",
+        "columns": [
+            [
+                "CPTCodeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "CPTCodeValue",
+                "[nvarchar](10) NOT NULL"
+            ],
+            [
+                "CPTName",
+                "[nvarchar](512) NOT NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "CPTCodeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[CPTCode] ADD  CONSTRAINT [DF_CPTCode_CPTCodeId]  DEFAULT (newid()) FOR [CPTCodeId]",
+            "ALTER TABLE [dbo].[CPTCode] ADD  CONSTRAINT [DF_CPTCode_Inactive]  DEFAULT ((0)) FOR [Inactive]",
+            "ALTER TABLE [dbo].[CPTCode] ADD  CONSTRAINT [DF_CPTCode_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[CPTCode] ADD  CONSTRAINT [DF_CPTCode_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.EncounterCostCenter.Table.sql",
+        "table_name": "dbo.EncounterCostCenter",
+        "columns": [
+            [
+                "EncounterCostCenterId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "EncounterCostCenterName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "EncounterCostCenterIdentifier",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "EncounterCostCenterId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[EncounterCostCenter] ADD  CONSTRAINT [DF_EncounterCostCenter_EncounterCostCenterId]  DEFAULT (newid()) FOR [EncounterCostCenterId]",
+            "ALTER TABLE [dbo].[EncounterCostCenter] ADD  CONSTRAINT [DF_EncounterCostCenter_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[EncounterCostCenter] ADD  CONSTRAINT [DF_EncounterCostCenter_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.ProductType.Table.sql",
+        "table_name": "dbo.ProductType",
+        "columns": [
+            [
+                "ProductTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProductTypeName",
+                "[nvarchar](100) NOT NULL"
+            ],
+            [
+                "Implant",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ProductTypeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ProductType] ADD  CONSTRAINT [DF_ProductType_Implant]  DEFAULT ((0)) FOR [Implant]",
+            "ALTER TABLE [dbo].[ProductType] ADD  CONSTRAINT [DF_ProductType_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[ProductType] ADD  CONSTRAINT [DF_ProductType_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.Patient.Table.sql",
+        "table_name": "dbo.Patient",
+        "columns": [
+            [
+                "PatientId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "PatientTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "PatientMRN",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "LastName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "FirstName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "MiddleName",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "GenderCode",
+                "[nchar](1) NULL"
+            ],
+            [
+                "DateOfBirth",
+                "[date] NULL"
+            ],
+            [
+                "PhoneNumber",
+                "[nvarchar](30) NULL"
+            ],
+            [
+                "Address",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "Street",
+                "[nvarchar](100) NULL"
+            ],
+            [
+                "City",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "StateRegion",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "PostalCode",
+                "[nvarchar](10) NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "PatientId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Gender",
+            "dbo.PatientType_ToBeDeleted"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Patient] ADD  CONSTRAINT [DF_Patient_PatientId]  DEFAULT (newid()) FOR [PatientId]",
+            "ALTER TABLE [dbo].[Patient] ADD  CONSTRAINT [DF_Patient_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[Patient] ADD  CONSTRAINT [DF_Patient_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[Patient]  WITH CHECK ADD  CONSTRAINT [FK_Patient_Gender] FOREIGN KEY([GenderCode])\nREFERENCES [dbo].[Gender] ([GenderCode])",
+            "ALTER TABLE [dbo].[Patient] CHECK CONSTRAINT [FK_Patient_Gender]",
+            "ALTER TABLE [dbo].[Patient]  WITH CHECK ADD  CONSTRAINT [FK_Patient_PatientType] FOREIGN KEY([PatientTypeId])\nREFERENCES [dbo].[PatientType_ToBeDeleted] ([PatientTypeId])",
+            "ALTER TABLE [dbo].[Patient] CHECK CONSTRAINT [FK_Patient_PatientType]"
+        ]
+    },
+    {
+        "file_name": "dbo.MaterialDetail_TBD.Table.sql",
+        "table_name": "dbo.MaterialDetail_TBD",
+        "columns": [
+            [
+                "MaterialDetailId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "Material",
+                "[nvarchar](max) NULL"
+            ],
+            [
+                "Preparer",
+                "[nvarchar](max) NULL"
+            ],
+            [
+                "Method",
+                "[nvarchar](max) NULL"
+            ],
+            [
+                "LotNo",
+                "[nvarchar](max) NULL"
+            ],
+            [
+                "Quantity",
+                "[int] NOT NULL"
+            ],
+            [
+                "UOM",
+                "[nvarchar](50) NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "MaterialDetailId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[MaterialDetail_TBD] ADD  CONSTRAINT [DF_MaterialDetail_MaterialDetailId]  DEFAULT (newid()) FOR [MaterialDetailId]"
+        ]
+    },
+    {
+        "file_name": "dbo.FormOfAddress.Table.sql",
+        "table_name": "dbo.FormOfAddress",
+        "columns": [
+            [
+                "FormOfAddressId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "FormOfAddressName",
+                "[nvarchar](10) NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "FormOfAddressId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[FormOfAddress] ADD  CONSTRAINT [DF_FormOfAddress_FormOfAddressId]  DEFAULT (newid()) FOR [FormOfAddressId]"
+        ]
+    },
+    {
+        "file_name": "dbo.Manufacturer.Table.sql",
+        "table_name": "dbo.Manufacturer",
+        "columns": [
+            [
+                "ManufacturerId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "GlobalManufacturerId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "ManufacturerCode",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "ManufacturerName",
+                "[nvarchar](150) NOT NULL"
+            ],
+            [
+                "Address",
+                "[nvarchar](150) NULL"
+            ],
+            [
+                "City",
+                "[nvarchar](150) NULL"
+            ],
+            [
+                "StateRegion",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "PostalCode",
+                "[nvarchar](16) NULL"
+            ],
+            [
+                "CountryName",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "MainPhone",
+                "[nvarchar](30) NULL"
+            ],
+            [
+                "MainFax",
+                "[nvarchar](30) NULL"
+            ],
+            [
+                "WebSite",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ManufacturerId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Manufacturer] ADD  CONSTRAINT [DF_Manufacturer_ManufacturerId]  DEFAULT (newid()) FOR [ManufacturerId]",
+            "ALTER TABLE [dbo].[Manufacturer] ADD  CONSTRAINT [DF_Manufacturer_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[Manufacturer] ADD  CONSTRAINT [DF_Manufacturer_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.Gender.Table.sql",
+        "table_name": "dbo.Gender",
+        "columns": [
+            [
+                "GenderCode",
+                "[nchar](1) NOT NULL"
+            ],
+            [
+                "GenderName",
+                "[nvarchar](25) NOT NULL"
+            ],
+            [
+                "SortOrder",
+                "[smallint] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "GenderCode ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": []
+    },
+    {
+        "file_name": "dbo.InventoryQuantity.Table.sql",
+        "table_name": "dbo.InventoryQuantity",
+        "columns": [
+            [
+                "InventoryQuantityId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProductVariantId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "Price",
+                "[money] NOT NULL"
+            ],
+            [
+                "OnHandQuantity",
+                "[int] NOT NULL"
+            ],
+            [
+                "ReservedQuantity",
+                "[int] NOT NULL"
+            ],
+            [
+                "OrderedQuantity",
+                "[int] NOT NULL"
+            ],
+            [
+                "AvailableQuantity",
+                "AS ([OnHandQuantity]-[ReservedQuantity]) PERSISTED"
+            ],
+            [
+                "ShippedQuantity",
+                "[int] NOT NULL"
+            ],
+            [
+                "LotNumber",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "SerialNumber",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "ExpirationDate",
+                "[datetime] NULL"
+            ],
+            [
+                "RFIDTag",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "RFIDStatusId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "RFIDInTransit",
+                "[bit] NOT NULL"
+            ],
+            [
+                "ReceivedPrice",
+                "[money] NULL"
+            ],
+            [
+                "DateReceived",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "InventoryLocationId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "ManufactureDate",
+                "[datetime] NULL"
+            ],
+            [
+                "Consigned",
+                "[bit] NOT NULL"
+            ],
+            [
+                "VendorOwned",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "InventoryQuantityId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.InventoryLocation",
+            "dbo.ProductVariant",
+            "dbo.RFIDStatus"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[InventoryQuantity] ADD  CONSTRAINT [DF_InventoryQuantity_InventoryQuantityId]  DEFAULT (newid()) FOR [InventoryQuantityId]",
+            "ALTER TABLE [dbo].[InventoryQuantity] ADD  CONSTRAINT [DF_InventoryQuantity_Price]  DEFAULT ((0)) FOR [Price]",
+            "ALTER TABLE [dbo].[InventoryQuantity] ADD  CONSTRAINT [DF_InventoryQuantity_ReservedQuantity]  DEFAULT ((0)) FOR [ReservedQuantity]",
+            "ALTER TABLE [dbo].[InventoryQuantity] ADD  CONSTRAINT [DF_InventoryQuantity_ShippedQuantity]  DEFAULT ((0)) FOR [OrderedQuantity]",
+            "ALTER TABLE [dbo].[InventoryQuantity] ADD  CONSTRAINT [DF_InventoryQuantity_ShippedQuantity_1]  DEFAULT ((0)) FOR [ShippedQuantity]",
+            "ALTER TABLE [dbo].[InventoryQuantity] ADD  CONSTRAINT [DF_InventoryQuantity_RFIDInTransit]  DEFAULT ((0)) FOR [RFIDInTransit]",
+            "ALTER TABLE [dbo].[InventoryQuantity] ADD  CONSTRAINT [DF_InventoryQuantity_DateReceived]  DEFAULT (getdate()) FOR [DateReceived]",
+            "ALTER TABLE [dbo].[InventoryQuantity] ADD  CONSTRAINT [DF_InventoryQuantity_VendorOwned]  DEFAULT ((0)) FOR [VendorOwned]",
+            "ALTER TABLE [dbo].[InventoryQuantity] ADD  CONSTRAINT [DF_InventoryQuantity_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[InventoryQuantity] ADD  CONSTRAINT [DF_InventoryQuantity_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[InventoryQuantity]  WITH CHECK ADD  CONSTRAINT [FK_InventoryQuantity_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[InventoryQuantity] CHECK CONSTRAINT [FK_InventoryQuantity_Department]",
+            "ALTER TABLE [dbo].[InventoryQuantity]  WITH CHECK ADD  CONSTRAINT [FK_InventoryQuantity_InventoryLocation] FOREIGN KEY([InventoryLocationId])\nREFERENCES [dbo].[InventoryLocation] ([InventoryLocationId])",
+            "ALTER TABLE [dbo].[InventoryQuantity] CHECK CONSTRAINT [FK_InventoryQuantity_InventoryLocation]",
+            "ALTER TABLE [dbo].[InventoryQuantity]  WITH CHECK ADD  CONSTRAINT [FK_InventoryQuantity_ProductVariant] FOREIGN KEY([ProductVariantId])\nREFERENCES [dbo].[ProductVariant] ([ProductVariantId])",
+            "ALTER TABLE [dbo].[InventoryQuantity] CHECK CONSTRAINT [FK_InventoryQuantity_ProductVariant]",
+            "ALTER TABLE [dbo].[InventoryQuantity]  WITH CHECK ADD  CONSTRAINT [FK_InventoryQuantity_RFIDStatus] FOREIGN KEY([RFIDStatusId])\nREFERENCES [dbo].[RFIDStatus] ([RFIDStatusId])",
+            "ALTER TABLE [dbo].[InventoryQuantity] CHECK CONSTRAINT [FK_InventoryQuantity_RFIDStatus]",
+            "ALTER TABLE [dbo].[InventoryQuantity]  WITH CHECK ADD  CONSTRAINT [[CK_InventoryQuantity_OnHandQuantity_GTEQ_Zero_RFID] CHECK  (([RFIDTag] IS NULL AND [OnHandQuantity]>=(0) OR ([OnHandQuantity]=(0) OR [OnHandQuantity]=(1))))",
+            "ALTER TABLE [dbo].[InventoryQuantity] CHECK CONSTRAINT [[CK_InventoryQuantity_OnHandQuantity_GTEQ_Zero_RFID]",
+            "ALTER TABLE [dbo].[InventoryQuantity]  WITH CHECK ADD  CONSTRAINT [CK_InventoryQuantity_OrderedQuantity_GTEQ_Zero] CHECK  (([OrderedQuantity]>=(0)))",
+            "ALTER TABLE [dbo].[InventoryQuantity] CHECK CONSTRAINT [CK_InventoryQuantity_OrderedQuantity_GTEQ_Zero]",
+            "ALTER TABLE [dbo].[InventoryQuantity]  WITH CHECK ADD  CONSTRAINT [CK_InventoryQuantity_ReservedQuantity_GTEQ_Zero] CHECK  (([ReservedQuantity]>=(0)))",
+            "ALTER TABLE [dbo].[InventoryQuantity] CHECK CONSTRAINT [CK_InventoryQuantity_ReservedQuantity_GTEQ_Zero]",
+            "ALTER TABLE [dbo].[InventoryQuantity]  WITH CHECK ADD  CONSTRAINT [CK_InventoryQuantity_ShippedQuantity_GTEQ_Zero] CHECK  (([ShippedQuantity]>=(0)))",
+            "ALTER TABLE [dbo].[InventoryQuantity] CHECK CONSTRAINT [CK_InventoryQuantity_ShippedQuantity_GTEQ_Zero]"
+        ]
+    },
+    {
+        "file_name": "dbo.StaffType.Table.sql",
+        "table_name": "dbo.StaffType",
+        "columns": [
+            [
+                "StaffTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "StaffTypeName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "StaffTypeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[StaffType] ADD  CONSTRAINT [DF_Designation_DesignationId]  DEFAULT (newid()) FOR [StaffTypeId]",
+            "ALTER TABLE [dbo].[StaffType] ADD  CONSTRAINT [DF_Designation_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[StaffType] ADD  CONSTRAINT [DF_Designation_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.InventoryTransaction.Table.sql",
+        "table_name": "dbo.InventoryTransaction",
+        "columns": [
+            [
+                "InventoryTransactionId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InventoryQuantityId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "UserId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InventoryTransactionTypeId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "TransactionQuantity",
+                "[int] NOT NULL"
+            ],
+            [
+                "TransactionDate",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "ProductVariantId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "Price",
+                "[money] NOT NULL"
+            ],
+            [
+                "ScannedUPN",
+                "[nvarchar](100) NULL"
+            ],
+            [
+                "EncounterProductId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "OrderId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "OrderExportId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "InventoryTransactionId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.EncounterProduct",
+            "dbo.InventoryQuantity",
+            "dbo.InventoryTransactionType",
+            "dbo.ProductVariant",
+            "dbo.User"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[InventoryTransaction] ADD  CONSTRAINT [DF_InventoryTransaction_InventoryTransactionId]  DEFAULT (newid()) FOR [InventoryTransactionId]",
+            "ALTER TABLE [dbo].[InventoryTransaction] ADD  CONSTRAINT [DF_InventoryTransaction_TransactionDate]  DEFAULT (getdate()) FOR [TransactionDate]",
+            "ALTER TABLE [dbo].[InventoryTransaction] ADD  CONSTRAINT [DF_InventoryTransaction_Price]  DEFAULT ((0)) FOR [Price]",
+            "ALTER TABLE [dbo].[InventoryTransaction] ADD  CONSTRAINT [DF_InventoryTransaction_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[InventoryTransaction] ADD  CONSTRAINT [DF_InventoryTransaction_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[InventoryTransaction]  WITH CHECK ADD  CONSTRAINT [FK_InventoryTransaction_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[InventoryTransaction] CHECK CONSTRAINT [FK_InventoryTransaction_Department]",
+            "ALTER TABLE [dbo].[InventoryTransaction]  WITH CHECK ADD  CONSTRAINT [FK_InventoryTransaction_EncounterProduct] FOREIGN KEY([EncounterProductId])\nREFERENCES [dbo].[EncounterProduct] ([EncounterProductId])",
+            "ALTER TABLE [dbo].[InventoryTransaction] CHECK CONSTRAINT [FK_InventoryTransaction_EncounterProduct]",
+            "ALTER TABLE [dbo].[InventoryTransaction]  WITH CHECK ADD  CONSTRAINT [FK_InventoryTransaction_InventoryQuantity] FOREIGN KEY([InventoryQuantityId])\nREFERENCES [dbo].[InventoryQuantity] ([InventoryQuantityId])",
+            "ALTER TABLE [dbo].[InventoryTransaction] CHECK CONSTRAINT [FK_InventoryTransaction_InventoryQuantity]",
+            "ALTER TABLE [dbo].[InventoryTransaction]  WITH CHECK ADD  CONSTRAINT [FK_InventoryTransaction_InventoryTransactionType] FOREIGN KEY([InventoryTransactionTypeId])\nREFERENCES [dbo].[InventoryTransactionType] ([InventoryTransactionTypeId])",
+            "ALTER TABLE [dbo].[InventoryTransaction] CHECK CONSTRAINT [FK_InventoryTransaction_InventoryTransactionType]",
+            "ALTER TABLE [dbo].[InventoryTransaction]  WITH CHECK ADD  CONSTRAINT [FK_InventoryTransaction_ProductVariant] FOREIGN KEY([ProductVariantId])\nREFERENCES [dbo].[ProductVariant] ([ProductVariantId])",
+            "ALTER TABLE [dbo].[InventoryTransaction] CHECK CONSTRAINT [FK_InventoryTransaction_ProductVariant]",
+            "ALTER TABLE [dbo].[InventoryTransaction]  WITH CHECK ADD  CONSTRAINT [FK_InventoryTransaction_User] FOREIGN KEY([UserId])\nREFERENCES [dbo].[User] ([UserId])",
+            "ALTER TABLE [dbo].[InventoryTransaction] CHECK CONSTRAINT [FK_InventoryTransaction_User]",
+            "ALTER TABLE [dbo].[InventoryTransaction]  WITH CHECK ADD  CONSTRAINT [CK_InventoryTransaction_TransactionQuantity_GTEQ_Zero] CHECK  (([TransactionQuantity]>=(0)))",
+            "ALTER TABLE [dbo].[InventoryTransaction] CHECK CONSTRAINT [CK_InventoryTransaction_TransactionQuantity_GTEQ_Zero]"
+        ]
+    },
+    {
+        "file_name": "dbo.ProductOverride.Table.sql",
+        "table_name": "dbo.ProductOverride",
+        "columns": [
+            [
+                "ProductOverrideId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProductId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "FacilityId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "UsageDesignation",
+                "[nchar](1) NULL"
+            ],
+            [
+                "CostCenter",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "RequireInspection",
+                "[bit] NOT NULL"
+            ],
+            [
+                "TranslatedTemperatureId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "ImplantTemperatureTypeId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "RequireLotNumber",
+                "[bit] NULL"
+            ],
+            [
+                "RequireExpirationDate",
+                "[bit] NULL"
+            ],
+            [
+                "RequireLocation",
+                "[bit] NULL"
+            ],
+            [
+                "RequireRFIDTag",
+                "[bit] NULL"
+            ],
+            [
+                "ShowFDAAlerts",
+                "[bit] NULL"
+            ],
+            [
+                "Consigned",
+                "[bit] NULL"
+            ],
+            [
+                "Loaned",
+                "[bit] NULL"
+            ],
+            [
+                "UserId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLatModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ProductOverrideId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.Facility",
+            "dbo.ImplantTemperatureType",
+            "dbo.Product",
+            "dbo.TranslatedTemperature",
+            "dbo.User"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ProductOverride] ADD  CONSTRAINT [DF_ProductOverride_ProductOverrideId]  DEFAULT (newid()) FOR [ProductOverrideId]",
+            "ALTER TABLE [dbo].[ProductOverride] ADD  CONSTRAINT [DF_ProductOverride_RequireInspection]  DEFAULT ((0)) FOR [RequireInspection]",
+            "ALTER TABLE [dbo].[ProductOverride] ADD  CONSTRAINT [DF_ProductOverride_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[ProductOverride] ADD  CONSTRAINT [DF_ProductOverride_DateLatModified]  DEFAULT (getdate()) FOR [DateLatModified]",
+            "ALTER TABLE [dbo].[ProductOverride]  WITH CHECK ADD  CONSTRAINT [FK_ProductOverride_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[ProductOverride] CHECK CONSTRAINT [FK_ProductOverride_Department]",
+            "ALTER TABLE [dbo].[ProductOverride]  WITH CHECK ADD  CONSTRAINT [FK_ProductOverride_Facility] FOREIGN KEY([FacilityId])\nREFERENCES [dbo].[Facility] ([FacilityId])",
+            "ALTER TABLE [dbo].[ProductOverride] CHECK CONSTRAINT [FK_ProductOverride_Facility]",
+            "ALTER TABLE [dbo].[ProductOverride]  WITH CHECK ADD  CONSTRAINT [FK_ProductOverride_ImplantTemperatureType] FOREIGN KEY([ImplantTemperatureTypeId])\nREFERENCES [dbo].[ImplantTemperatureType] ([ImplantTemperatureTypeId])",
+            "ALTER TABLE [dbo].[ProductOverride] CHECK CONSTRAINT [FK_ProductOverride_ImplantTemperatureType]",
+            "ALTER TABLE [dbo].[ProductOverride]  WITH CHECK ADD  CONSTRAINT [FK_ProductOverride_Product] FOREIGN KEY([ProductId])\nREFERENCES [dbo].[Product] ([ProductId])",
+            "ALTER TABLE [dbo].[ProductOverride] CHECK CONSTRAINT [FK_ProductOverride_Product]",
+            "ALTER TABLE [dbo].[ProductOverride]  WITH CHECK ADD  CONSTRAINT [FK_ProductOverride_TranslatedTemperature] FOREIGN KEY([TranslatedTemperatureId])\nREFERENCES [dbo].[TranslatedTemperature] ([TranslatedTemperatureId])",
+            "ALTER TABLE [dbo].[ProductOverride] CHECK CONSTRAINT [FK_ProductOverride_TranslatedTemperature]",
+            "ALTER TABLE [dbo].[ProductOverride]  WITH CHECK ADD  CONSTRAINT [FK_ProductOverride_User] FOREIGN KEY([UserId])\nREFERENCES [dbo].[User] ([UserId])",
+            "ALTER TABLE [dbo].[ProductOverride] CHECK CONSTRAINT [FK_ProductOverride_User]",
+            "ALTER TABLE [dbo].[ProductOverride]  WITH CHECK ADD  CONSTRAINT [CK_ProductOverride_Designation] CHECK  ((([UsageDesignation]='S' OR [UsageDesignation] IS NULL) AND ([TranslatedTemperatureId] IS NULL AND [ImplantTemperatureTypeId] IS NULL) OR [UsageDesignation]='I'))",
+            "ALTER TABLE [dbo].[ProductOverride] CHECK CONSTRAINT [CK_ProductOverride_Designation]",
+            "ALTER TABLE [dbo].[ProductOverride]  WITH CHECK ADD  CONSTRAINT [CK_ProductOverride_RequireInspection] CHECK  ((([UsageDesignation]='S' OR [UsageDesignation] IS NULL) AND [RequireInspection]=(0) OR [UsageDesignation]='I'))",
+            "ALTER TABLE [dbo].[ProductOverride] CHECK CONSTRAINT [CK_ProductOverride_RequireInspection]"
+        ]
+    },
+    {
+        "file_name": "dbo.TissuePreparation_TBD.Table.sql",
+        "table_name": "dbo.TissuePreparation_TBD",
+        "columns": [
+            [
+                "TissuePreparationId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "MaterialDetailId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "PreparationNote",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "TissuePreparationId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.MaterialDetail_TBD"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[TissuePreparation_TBD] ADD  CONSTRAINT [DF_TissuePreparation_TissuePreparationId]  DEFAULT (newid()) FOR [TissuePreparationId]",
+            "ALTER TABLE [dbo].[TissuePreparation_TBD] ADD  CONSTRAINT [DF_TissuePreparation_TBD_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[TissuePreparation_TBD] ADD  CONSTRAINT [DF_TissuePreparation_TBD_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[TissuePreparation_TBD]  WITH CHECK ADD  CONSTRAINT [FK_TissuePreparation_MaterialDetail] FOREIGN KEY([MaterialDetailId])\nREFERENCES [dbo].[MaterialDetail_TBD] ([MaterialDetailId])",
+            "ALTER TABLE [dbo].[TissuePreparation_TBD] CHECK CONSTRAINT [FK_TissuePreparation_MaterialDetail]"
+        ]
+    },
+    {
+        "file_name": "dbo.ImplantTissuePreparation.Table.sql",
+        "table_name": "dbo.ImplantTissuePreparation",
+        "columns": [
+            [
+                "ImplantTissuePreparationId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ImplantChainOfCustodyId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "CapturerName",
+                "[nvarchar](255) NOT NULL"
+            ],
+            [
+                "CapturerUserId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "CaptureName",
+                "[nvarchar](255) NOT NULL"
+            ],
+            [
+                "DateCaptured",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "CaptureMaterial",
+                "[nvarchar](2048) NOT NULL"
+            ],
+            [
+                "LotNumber",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "ExpirationDate",
+                "[datetime] NULL"
+            ],
+            [
+                "Quantity",
+                "[int] NULL"
+            ],
+            [
+                "UOM",
+                "[nvarchar](20) NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ImplantTissuePreparationId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.ImplantChainOfCustody",
+            "dbo.User"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ImplantTissuePreparation] ADD  CONSTRAINT [DF_ImplantTissuePreparation_ImplantTissuePreparationId]  DEFAULT (newid()) FOR [ImplantTissuePreparationId]",
+            "ALTER TABLE [dbo].[ImplantTissuePreparation] ADD  CONSTRAINT [DF_ImplantTissuePreparation_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[ImplantTissuePreparation] ADD  CONSTRAINT [DF_ImplantTissuePreparation_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[ImplantTissuePreparation]  WITH CHECK ADD  CONSTRAINT [FK_ImplantTissuePreparation_ImplantChainOfCustody] FOREIGN KEY([ImplantChainOfCustodyId])\nREFERENCES [dbo].[ImplantChainOfCustody] ([ImplantChainOfCustodyId])",
+            "ALTER TABLE [dbo].[ImplantTissuePreparation] CHECK CONSTRAINT [FK_ImplantTissuePreparation_ImplantChainOfCustody]",
+            "ALTER TABLE [dbo].[ImplantTissuePreparation]  WITH CHECK ADD  CONSTRAINT [FK_ImplantTissuePreparation_User] FOREIGN KEY([CapturerUserId])\nREFERENCES [dbo].[User] ([UserId])",
+            "ALTER TABLE [dbo].[ImplantTissuePreparation] CHECK CONSTRAINT [FK_ImplantTissuePreparation_User]"
+        ]
+    },
+    {
+        "file_name": "dbo.UOMType.Table.sql",
+        "table_name": "dbo.UOMType",
+        "columns": [
+            [
+                "UOMTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "UOMTypeName",
+                "[nvarchar](25) NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "UOMTypeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": []
+    },
+    {
+        "file_name": "dbo.RoleScope.Table.sql",
+        "table_name": "dbo.RoleScope",
+        "columns": [
+            [
+                "RoleId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ScopeId",
+                "[uniqueidentifier] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "RoleId ASC",
+                "ScopeId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Role",
+            "dbo.Scope"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[RoleScope]  WITH CHECK ADD  CONSTRAINT [FK_RoleScope_Role] FOREIGN KEY([RoleId])\nREFERENCES [dbo].[Role] ([RoleId])",
+            "ALTER TABLE [dbo].[RoleScope] CHECK CONSTRAINT [FK_RoleScope_Role]",
+            "ALTER TABLE [dbo].[RoleScope]  WITH CHECK ADD  CONSTRAINT [FK_RoleScope_Scope] FOREIGN KEY([ScopeId])\nREFERENCES [dbo].[Scope] ([ScopeId])",
+            "ALTER TABLE [dbo].[RoleScope] CHECK CONSTRAINT [FK_RoleScope_Scope]"
+        ]
+    },
+    {
+        "file_name": "dbo.UnitType.Table.sql",
+        "table_name": "dbo.UnitType",
+        "columns": [
+            [
+                "UnitTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "UnitTypeName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "MeasurementTypeId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "UnitTypeId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.MeasurementType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[UnitType] ADD  CONSTRAINT [DF_UnitType_UnitTypeId]  DEFAULT (newid()) FOR [UnitTypeId]",
+            "ALTER TABLE [dbo].[UnitType] ADD  CONSTRAINT [DF_UnitType_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[UnitType] ADD  CONSTRAINT [DF_UnitType_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[UnitType]  WITH CHECK ADD  CONSTRAINT [FK_UnitType_MeasurementType] FOREIGN KEY([MeasurementTypeId])\nREFERENCES [dbo].[MeasurementType] ([MeasurementTypeId])",
+            "ALTER TABLE [dbo].[UnitType] CHECK CONSTRAINT [FK_UnitType_MeasurementType]"
+        ]
+    },
+    {
+        "file_name": "dbo.RFIDStatus.Table.sql",
+        "table_name": "dbo.RFIDStatus",
+        "columns": [
+            [
+                "RFIDStatusId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "RFIDStatusName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "RFIDStatusId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[RFIDStatus] ADD  CONSTRAINT [DF_RFIDStatus_RFIDStatusId]  DEFAULT (newid()) FOR [RFIDStatusId]",
+            "ALTER TABLE [dbo].[RFIDStatus] ADD  CONSTRAINT [DF_RFIDStatus_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[RFIDStatus] ADD  CONSTRAINT [DF_RFIDStatus_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead.Table.sql",
+        "table_name": "dbo.ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead",
+        "columns": [
+            [
+                "ImplantDetailId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ImplantStaffId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "ImplantDateTime",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "SiteId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "SideId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ImplantDetailId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Side",
+            "dbo.Site",
+            "dbo.Staff"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead] ADD  CONSTRAINT [DF_ImplantDetail_ImplantDetailId]  DEFAULT (newid()) FOR [ImplantDetailId]",
+            "ALTER TABLE [dbo].[ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead] ADD  CONSTRAINT [DF_ImplantDetail_TBD_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead] ADD  CONSTRAINT [DF_ImplantDetail_TBD_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead]  WITH CHECK ADD  CONSTRAINT [FK_ImplantDetail_Side] FOREIGN KEY([SideId])\nREFERENCES [dbo].[Side] ([SideId])",
+            "ALTER TABLE [dbo].[ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead] CHECK CONSTRAINT [FK_ImplantDetail_Side]",
+            "ALTER TABLE [dbo].[ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead]  WITH CHECK ADD  CONSTRAINT [FK_ImplantDetail_Site] FOREIGN KEY([SiteId])\nREFERENCES [dbo].[Site] ([SiteId])",
+            "ALTER TABLE [dbo].[ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead] CHECK CONSTRAINT [FK_ImplantDetail_Site]",
+            "ALTER TABLE [dbo].[ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead]  WITH CHECK ADD  CONSTRAINT [FK_ImplantDetail_Staff] FOREIGN KEY([ImplantStaffId])\nREFERENCES [dbo].[Staff] ([StaffId])",
+            "ALTER TABLE [dbo].[ImplantDetail_ToBeDeleted_Use_ImplantChainOfCustody_Instead] CHECK CONSTRAINT [FK_ImplantDetail_Staff]"
+        ]
+    },
+    {
+        "file_name": "dbo.ImplantChainOfCustody.Table.sql",
+        "table_name": "dbo.ImplantChainOfCustody",
+        "columns": [
+            [
+                "ImplantChainOfCustodyId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProductVariantId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ImplantStatusId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "EncounterProductId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "InventoryTransactionTypeId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "InventoryTransactionId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "StorageLocation",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "InspectionNote",
+                "[nvarchar](2048) NULL"
+            ],
+            [
+                "FinalDisposition",
+                "[nvarchar](2048) NULL"
+            ],
+            [
+                "Temperature",
+                "[decimal](10, 4) NULL"
+            ],
+            [
+                "CabinetTemperature",
+                "[decimal](6, 2) NULL"
+            ],
+            [
+                "UnitTypeId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "TranslatedTemperatureId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "LowerTemperatureRange",
+                "[nvarchar](20) NULL"
+            ],
+            [
+                "UpperTemperatureRange",
+                "[nvarchar](20) NULL"
+            ],
+            [
+                "DonerIdentifier",
+                "[nvarchar](55) NULL"
+            ],
+            [
+                "SourceFacility",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "Courier",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "CourierNote",
+                "[nvarchar](1024) NULL"
+            ],
+            [
+                "ReceiverName",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "PONumber",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "TissueCardSent",
+                "[bit] NOT NULL"
+            ],
+            [
+                "ImplantedByStaffId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "DateImplanted",
+                "[datetime] NULL"
+            ],
+            [
+                "ImplantPreparationMethodId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "Autologous",
+                "[bit] NOT NULL"
+            ],
+            [
+                "SiteId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "SideId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "UserId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ImplantChainOfCustodyId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.EncounterProduct",
+            "dbo.ImplantPreparationMethod",
+            "dbo.ImplantStatus",
+            "dbo.InventoryTransaction",
+            "dbo.InventoryTransactionType",
+            "dbo.ProductVariant",
+            "dbo.Side",
+            "dbo.Site",
+            "dbo.Staff",
+            "dbo.TranslatedTemperature",
+            "dbo.UnitType",
+            "dbo.User"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] ADD  CONSTRAINT [DF_ImplantChainOfCustody_ImplantChainOfCustodyId]  DEFAULT (newid()) FOR [ImplantChainOfCustodyId]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] ADD  CONSTRAINT [DF_ImplantChainOfCustody_TissueCardSent]  DEFAULT ((0)) FOR [TissueCardSent]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] ADD  CONSTRAINT [DF_ImplantChainOfCustody_Autolo",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] ADD  CONSTRAINT [DF_ImplantChainOfCustody_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] ADD  CONSTRAINT [DF_ImplantChainOfCustody_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_Department]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_EncounterProduct] FOREIGN KEY([EncounterProductId])\nREFERENCES [dbo].[EncounterProduct] ([EncounterProductId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_EncounterProduct]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_ImplantPreparationMethod] FOREIGN KEY([ImplantPreparationMethodId])\nREFERENCES [dbo].[ImplantPreparationMethod] ([ImplantPreparationMethodId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_ImplantPreparationMethod]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_ImplantStatus] FOREIGN KEY([ImplantStatusId])\nREFERENCES [dbo].[ImplantStatus] ([ImplantStatusId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_ImplantStatus]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_InventoryTransaction] FOREIGN KEY([InventoryTransactionId])\nREFERENCES [dbo].[InventoryTransaction] ([InventoryTransactionId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_InventoryTransaction]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_InventoryTransactionType] FOREIGN KEY([InventoryTransactionTypeId])\nREFERENCES [dbo].[InventoryTransactionType] ([InventoryTransactionTypeId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_InventoryTransactionType]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_ProductVariant] FOREIGN KEY([ProductVariantId])\nREFERENCES [dbo].[ProductVariant] ([ProductVariantId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_ProductVariant]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_Side] FOREIGN KEY([SideId])\nREFERENCES [dbo].[Side] ([SideId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_Side]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_Site] FOREIGN KEY([SiteId])\nREFERENCES [dbo].[Site] ([SiteId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_Site]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_Staff] FOREIGN KEY([ImplantedByStaffId])\nREFERENCES [dbo].[Staff] ([StaffId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_Staff]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_TranslatedTemperature] FOREIGN KEY([TranslatedTemperatureId])\nREFERENCES [dbo].[TranslatedTemperature] ([TranslatedTemperatureId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_TranslatedTemperature]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_UnitType] FOREIGN KEY([UnitTypeId])\nREFERENCES [dbo].[UnitType] ([UnitTypeId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_UnitType]",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody]  WITH CHECK ADD  CONSTRAINT [FK_ImplantChainOfCustody_User] FOREIGN KEY([UserId])\nREFERENCES [dbo].[User] ([UserId])",
+            "ALTER TABLE [dbo].[ImplantChainOfCustody] CHECK CONSTRAINT [FK_ImplantChainOfCustody_User]"
+        ]
+    },
+    {
+        "file_name": "dbo.Product.Table.sql",
+        "table_name": "dbo.Product",
+        "columns": [
+            [
+                "ProductId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "GlobalProductId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "ProductTypeId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "ManufacturerId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "CatalogNumber",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "CleanCatalogNumber",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "Description",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "DescriptionAlias",
+                "[nvarchar](255) NOT NULL"
+            ],
+            [
+                "BrandName",
+                "[nvarchar](255) NOT NULL"
+            ],
+            [
+                "QuickReorderNumber",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "LongDescription",
+                "[nvarchar](1000) NULL"
+            ],
+            [
+                "UnitTypeId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "Size",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "Latex",
+                "[bit] NOT NULL"
+            ],
+            [
+                "Stock",
+                "[bit] NOT NULL"
+            ],
+            [
+                "Discontinued",
+                "[bit] NOT NULL"
+            ],
+            [
+                "UsageDesignation",
+                "[nchar](1) NULL"
+            ],
+            [
+                "CostCenter",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "RequireInspection",
+                "[bit] NOT NULL"
+            ],
+            [
+                "TranslatedTemperatureId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "ImplantTemperatureTypeId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "RequireLotNumber",
+                "[bit] NOT NULL"
+            ],
+            [
+                "RequireExpirationDate",
+                "[bit] NOT NULL"
+            ],
+            [
+                "RequireLocation",
+                "[bit] NOT NULL"
+            ],
+            [
+                "RequireRFIDTag",
+                "[bit] NOT NULL"
+            ],
+            [
+                "ShowFDAAlerts",
+                "[bit] NOT NULL"
+            ],
+            [
+                "UserId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ImagePath",
+                "[nvarchar](1000) NULL"
+            ],
+            [
+                "IsContrast",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLaseModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ProductId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.ImplantTemperatureType",
+            "dbo.Manufacturer",
+            "dbo.ProductType",
+            "dbo.TranslatedTemperature",
+            "dbo.UnitType",
+            "dbo.User"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_ProductId]  DEFAULT (newid()) FOR [ProductId]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_Latex]  DEFAULT ((0)) FOR [Latex]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_Stock]  DEFAULT ((0)) FOR [Stock]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_Discontinued]  DEFAULT ((0)) FOR [Discontinued]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_RequireInspection]  DEFAULT ((0)) FOR [RequireInspection]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_RequireLotNumber]  DEFAULT ((0)) FOR [RequireLotNumber]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_RequireExpirationDate]  DEFAULT ((0)) FOR [RequireExpirationDate]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_RequireLocation]  DEFAULT ((0)) FOR [RequireLocation]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_RequireRFIDTag]  DEFAULT ((0)) FOR [RequireRFIDTag]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_ShowFDAAlerts]  DEFAULT ((0)) FOR [ShowFDAAlerts]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_IsContrast]  DEFAULT ((0)) FOR [IsContrast]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_DateLaseModified]  DEFAULT (getdate()) FOR [DateLaseModified]",
+            "ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Product_ImplantTemperatureType] FOREIGN KEY([ImplantTemperatureTypeId])\nREFERENCES [dbo].[ImplantTemperatureType] ([ImplantTemperatureTypeId])",
+            "ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [FK_Product_ImplantTemperatureType]",
+            "ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Product_Manufacturer] FOREIGN KEY([ManufacturerId])\nREFERENCES [dbo].[Manufacturer] ([ManufacturerId])",
+            "ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [FK_Product_Manufacturer]",
+            "ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Product_ProductType] FOREIGN KEY([ProductTypeId])\nREFERENCES [dbo].[ProductType] ([ProductTypeId])",
+            "ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [FK_Product_ProductType]",
+            "ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Product_TranslatedTemperature] FOREIGN KEY([TranslatedTemperatureId])\nREFERENCES [dbo].[TranslatedTemperature] ([TranslatedTemperatureId])",
+            "ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [FK_Product_TranslatedTemperature]",
+            "ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Product_UnitType] FOREIGN KEY([UnitTypeId])\nREFERENCES [dbo].[UnitType] ([UnitTypeId])",
+            "ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [FK_Product_UnitType]",
+            "ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Product_User] FOREIGN KEY([UserId])\nREFERENCES [dbo].[User] ([UserId])",
+            "ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [FK_Product_User]",
+            "ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [CK_Product_Designation] CHECK  ((([UsageDesignation]='S' OR [UsageDesignation] IS NULL) AND ([TranslatedTemperatureId] IS NULL AND [ImplantTemperatureTypeId] IS NULL) OR [UsageDesignation]='I'))",
+            "ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [CK_Product_Designation]",
+            "ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [CK_Product_IsContrast_TrueForSupplyOnly] CHECK  ((([IsContrast]=(1) OR [IsContrast]=(0)) AND [UsageDesignation]='S' OR [IsContrast]=(0) AND [UsageDesignation]='I'))",
+            "ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [CK_Product_IsContrast_TrueForSupplyOnly]",
+            "ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [CK_Product_RequireInspection] CHECK  ((([UsageDesignation]='S' OR [UsageDesignation] IS NULL) AND [RequireInspection]=(0) OR [UsageDesignation]='I'))",
+            "ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [CK_Product_RequireInspection]"
+        ]
+    },
+    {
+        "file_name": "dbo.MeasurementType.Table.sql",
+        "table_name": "dbo.MeasurementType",
+        "columns": [
+            [
+                "MeasurementTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "MeasurementTypeName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "MeasurementTypeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[MeasurementType] ADD  CONSTRAINT [DF_MeasurementType_MeasurementTypeId]  DEFAULT (newid()) FOR [MeasurementTypeId]",
+            "ALTER TABLE [dbo].[MeasurementType] ADD  CONSTRAINT [DF_MeasurementType_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[MeasurementType] ADD  CONSTRAINT [DF_MeasurementType_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.PatientVisit.Table.sql",
+        "table_name": "dbo.PatientVisit",
+        "columns": [
+            [
+                "PatientVisitId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "PatientId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "VisitTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "VisitNumber",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "VisitDate",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateAdmitted",
+                "[datetime] NULL"
+            ],
+            [
+                "DateDischarged",
+                "[datetime] NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "PatientVisitId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Patient",
+            "dbo.VisitType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[PatientVisit] ADD  CONSTRAINT [DF_PatientVisit_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[PatientVisit] ADD  CONSTRAINT [DF_PatientVisit_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[PatientVisit]  WITH CHECK ADD  CONSTRAINT [FK_PatientVisit_Patient] FOREIGN KEY([PatientId])\nREFERENCES [dbo].[Patient] ([PatientId])",
+            "ALTER TABLE [dbo].[PatientVisit] CHECK CONSTRAINT [FK_PatientVisit_Patient]",
+            "ALTER TABLE [dbo].[PatientVisit]  WITH CHECK ADD  CONSTRAINT [FK_PatientVisit_VisitType] FOREIGN KEY([VisitTypeId])\nREFERENCES [dbo].[VisitType] ([VisitTypeId])",
+            "ALTER TABLE [dbo].[PatientVisit] CHECK CONSTRAINT [FK_PatientVisit_VisitType]"
+        ]
+    },
+    {
+        "file_name": "dbo.Title.Table.sql",
+        "table_name": "dbo.Title",
+        "columns": [
+            [
+                "TitleId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "TitleName",
+                "[nvarchar](50) NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "TitleId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": []
+    },
+    {
+        "file_name": "dbo.Medication_ToBeDeleted.Table.sql",
+        "table_name": "dbo.Medication_ToBeDeleted",
+        "columns": [
+            [
+                "MedicationId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "MedicationName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "MedicationId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Medication_ToBeDeleted] ADD  CONSTRAINT [DF_Medication_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[Medication_ToBeDeleted] ADD  CONSTRAINT [DF_Medication_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.CPTCodeXRef.Table.sql",
+        "table_name": "dbo.CPTCodeXRef",
+        "columns": [
+            [
+                "CPTCodeXRefId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "CPTCodeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProcedureCode",
+                "[nvarchar](100) NOT NULL"
+            ],
+            [
+                "ProcedureDescription",
+                "[nvarchar](100) NULL"
+            ],
+            [
+                "CPTModifierId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "CPTCodeXRefId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.CPTCode",
+            "dbo.CPTModifier"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[CPTCodeXRef] ADD  CONSTRAINT [DF_CPTCodeXRef_CPTCodeXRefId]  DEFAULT (newid()) FOR [CPTCodeXRefId]",
+            "ALTER TABLE [dbo].[CPTCodeXRef] ADD  CONSTRAINT [DF_CPTCodeXRef_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[CPTCodeXRef] ADD  CONSTRAINT [DF_CPTCodeXRef_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[CPTCodeXRef]  WITH CHECK ADD  CONSTRAINT [FK_CPTCodeXRef_CPTCode] FOREIGN KEY([CPTCodeId])\nREFERENCES [dbo].[CPTCode] ([CPTCodeId])",
+            "ALTER TABLE [dbo].[CPTCodeXRef] CHECK CONSTRAINT [FK_CPTCodeXRef_CPTCode]",
+            "ALTER TABLE [dbo].[CPTCodeXRef]  WITH CHECK ADD  CONSTRAINT [FK_CPTCodeXRef_CPTModifier] FOREIGN KEY([CPTModifierId])\nREFERENCES [dbo].[CPTModifier] ([CPTModifierId])",
+            "ALTER TABLE [dbo].[CPTCodeXRef] CHECK CONSTRAINT [FK_CPTCodeXRef_CPTModifier]"
+        ]
+    },
+    {
+        "file_name": "dbo.Department.Table.sql",
+        "table_name": "dbo.Department",
+        "columns": [
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentName",
+                "[nvarchar](100) NOT NULL"
+            ],
+            [
+                "FacilityId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModifed",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "DepartmentId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.DepartmentType",
+            "dbo.Facility"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Department] ADD  CONSTRAINT [DF_Department_DepartmentId]  DEFAULT (newid()) FOR [DepartmentId]",
+            "ALTER TABLE [dbo].[Department] ADD  CONSTRAINT [DF_Department_Inactive]  DEFAULT ((0)) FOR [Inactive]",
+            "ALTER TABLE [dbo].[Department] ADD  CONSTRAINT [DF_Department_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[Department] ADD  CONSTRAINT [DF_Department_DateLastModifed]  DEFAULT (getdate()) FOR [DateLastModifed]",
+            "ALTER TABLE [dbo].[Department]  WITH CHECK ADD  CONSTRAINT [FK_Department_DepartmentType] FOREIGN KEY([DepartmentTypeId])\nREFERENCES [dbo].[DepartmentType] ([DepartmentTypeId])",
+            "ALTER TABLE [dbo].[Department] CHECK CONSTRAINT [FK_Department_DepartmentType]",
+            "ALTER TABLE [dbo].[Department]  WITH CHECK ADD  CONSTRAINT [FK_Department_Facility] FOREIGN KEY([FacilityId])\nREFERENCES [dbo].[Facility] ([FacilityId])",
+            "ALTER TABLE [dbo].[Department] CHECK CONSTRAINT [FK_Department_Facility]"
+        ]
+    },
+    {
+        "file_name": "dbo.EncounterMedication.Table.sql",
+        "table_name": "dbo.EncounterMedication",
+        "columns": [
+            [
+                "EncounterMedicationId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "EncounterId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "Quantity",
+                "[decimal](10, 4) NULL"
+            ],
+            [
+                "SurgicalIntervention",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "Allergy",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "Medication",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "EncounterMedicationId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[EncounterMedication] ADD  CONSTRAINT [DF_MedicalDataDetail_MedicalDataDetailId]  DEFAULT (newid()) FOR [EncounterMedicationId]",
+            "ALTER TABLE [dbo].[EncounterMedication] ADD  CONSTRAINT [DF_MedicalDataDetail_TBD_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[EncounterMedication] ADD  CONSTRAINT [DF_MedicalDataDetail_TBD_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.TemperatureRange_TBD.Table.sql",
+        "table_name": "dbo.TemperatureRange_TBD",
+        "columns": [
+            [
+                "TemperatureRangeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "Start",
+                "[float] NOT NULL"
+            ],
+            [
+                "End",
+                "[float] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "TemperatureRangeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[TemperatureRange_TBD] ADD  CONSTRAINT [DF_TemperatureRange_TemperatureRangeId]  DEFAULT (newid()) FOR [TemperatureRangeId]"
+        ]
+    },
+    {
+        "file_name": "dbo.Staff.Table.sql",
+        "table_name": "dbo.Staff",
+        "columns": [
+            [
+                "StaffId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "LastName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "FirstName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "MiddleName",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "GenderCode",
+                "[nchar](1) NULL"
+            ],
+            [
+                "StaffTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "StaffId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.StaffType",
+            "dbo.Gender"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Staff] ADD  CONSTRAINT [DF_Staff_StaffId]  DEFAULT (newid()) FOR [StaffId]",
+            "ALTER TABLE [dbo].[Staff] ADD  CONSTRAINT [DF_Staff_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[Staff] ADD  CONSTRAINT [DF_Staff_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[Staff]  WITH CHECK ADD  CONSTRAINT [FK_Staff_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[Staff] CHECK CONSTRAINT [FK_Staff_Department]",
+            "ALTER TABLE [dbo].[Staff]  WITH CHECK ADD  CONSTRAINT [FK_Staff_Designation] FOREIGN KEY([StaffTypeId])\nREFERENCES [dbo].[StaffType] ([StaffTypeId])",
+            "ALTER TABLE [dbo].[Staff] CHECK CONSTRAINT [FK_Staff_Designation]",
+            "ALTER TABLE [dbo].[Staff]  WITH CHECK ADD  CONSTRAINT [FK_Staff_Gender] FOREIGN KEY([GenderCode])\nREFERENCES [dbo].[Gender] ([GenderCode])",
+            "ALTER TABLE [dbo].[Staff] CHECK CONSTRAINT [FK_Staff_Gender]"
+        ]
+    },
+    {
+        "file_name": "dbo.BodyCoordinate.Table.sql",
+        "table_name": "dbo.BodyCoordinate",
+        "columns": [
+            [
+                "BodyCoordinateId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "SiteId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "SideId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "GenderCode",
+                "[nchar](1) NOT NULL"
+            ],
+            [
+                "XCoordinate",
+                "[decimal](18, 2) NOT NULL"
+            ],
+            [
+                "YCoordinate",
+                "[decimal](18, 2) NOT NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "BodyCoordinateId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Gender",
+            "dbo.Side",
+            "dbo.Site"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[BodyCoordinate] ADD  CONSTRAINT [DF_BodyCoordinate_BodyCoordinateId]  DEFAULT (newid()) FOR [BodyCoordinateId]",
+            "ALTER TABLE [dbo].[BodyCoordinate] ADD  CONSTRAINT [DF_BodyCoordinate_Inactive]  DEFAULT ((0)) FOR [Inactive]",
+            "ALTER TABLE [dbo].[BodyCoordinate] ADD  CONSTRAINT [DF_BodyCoordinate_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[BodyCoordinate] ADD  CONSTRAINT [DF_BodyCoordinate_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[BodyCoordinate]  WITH CHECK ADD  CONSTRAINT [FK_BodyCoordinate_Gender] FOREIGN KEY([GenderCode])\nREFERENCES [dbo].[Gender] ([GenderCode])",
+            "ALTER TABLE [dbo].[BodyCoordinate] CHECK CONSTRAINT [FK_BodyCoordinate_Gender]",
+            "ALTER TABLE [dbo].[BodyCoordinate]  WITH CHECK ADD  CONSTRAINT [FK_BodyCoordinate_Side] FOREIGN KEY([SideId])\nREFERENCES [dbo].[Side] ([SideId])",
+            "ALTER TABLE [dbo].[BodyCoordinate] CHECK CONSTRAINT [FK_BodyCoordinate_Side]",
+            "ALTER TABLE [dbo].[BodyCoordinate]  WITH CHECK ADD  CONSTRAINT [FK_BodyCoordinate_Site] FOREIGN KEY([SiteId])\nREFERENCES [dbo].[Site] ([SiteId])",
+            "ALTER TABLE [dbo].[BodyCoordinate] CHECK CONSTRAINT [FK_BodyCoordinate_Site]"
+        ]
+    },
+    {
+        "file_name": "dbo.InspectionResult.Table.sql",
+        "table_name": "dbo.InspectionResult",
+        "columns": [
+            [
+                "InspectionResultId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InspectionResultName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "InspectionResultId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[InspectionResult] ADD  CONSTRAINT [DF_InspectionResult_InspectionResultId]  DEFAULT (newid()) FOR [InspectionResultId]",
+            "ALTER TABLE [dbo].[InspectionResult] ADD  CONSTRAINT [DF_InspectionResult_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[InspectionResult] ADD  CONSTRAINT [DF_InspectionResult_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.ImplantStatus.Table.sql",
+        "table_name": "dbo.ImplantStatus",
+        "columns": [
+            [
+                "ImplantStatusId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ImplantStatusName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "CommunicationRequired",
+                "[bit] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ImplantStatusId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ImplantStatus] ADD  CONSTRAINT [DF_ImplantStatus_ImplantStatusId]  DEFAULT (newid()) FOR [ImplantStatusId]",
+            "ALTER TABLE [dbo].[ImplantStatus] ADD  CONSTRAINT [DF_ImplantStatus_CommunicationRequired]  DEFAULT ((0)) FOR [CommunicationRequired]"
+        ]
+    },
+    {
+        "file_name": "dbo.InventoryLocationPreference.Table.sql",
+        "table_name": "dbo.InventoryLocationPreference",
+        "columns": [
+            [
+                "InventoryLocationPreferenceId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProductTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ManufacturerId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "LocationRequired",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "InventoryLocationPreferenceId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Manufacturer",
+            "dbo.ProductType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[InventoryLocationPreference] ADD  CONSTRAINT [DF_InventoryLocationPreference_LocationRequired]  DEFAULT ((0)) FOR [LocationRequired]",
+            "ALTER TABLE [dbo].[InventoryLocationPreference] ADD  CONSTRAINT [DF_InventoryLocationPreference_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[InventoryLocationPreference] ADD  CONSTRAINT [DF_InventoryLocationPreference_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[InventoryLocationPreference]  WITH CHECK ADD  CONSTRAINT [FK_InventoryLocationPreference_Manufacturer] FOREIGN KEY([ManufacturerId])\nREFERENCES [dbo].[Manufacturer] ([ManufacturerId])",
+            "ALTER TABLE [dbo].[InventoryLocationPreference] CHECK CONSTRAINT [FK_InventoryLocationPreference_Manufacturer]",
+            "ALTER TABLE [dbo].[InventoryLocationPreference]  WITH CHECK ADD  CONSTRAINT [FK_InventoryLocationPreference_ProductType] FOREIGN KEY([ProductTypeId])\nREFERENCES [dbo].[ProductType] ([ProductTypeId])",
+            "ALTER TABLE [dbo].[InventoryLocationPreference] CHECK CONSTRAINT [FK_InventoryLocationPreference_ProductType]"
+        ]
+    },
+    {
+        "file_name": "dbo.EncounterStaff_ToBeDeleted.Table.sql",
+        "table_name": "dbo.EncounterStaff_ToBeDeleted",
+        "columns": [
+            [
+                "EncounterStaffId",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "Name",
+                "[nvarchar](100) NULL"
+            ],
+            [
+                "Role",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "IsLead",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "Contact",
+                "[nvarchar](15) NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "EncounterStaffId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[EncounterStaff_ToBeDeleted] ADD  CONSTRAINT [DF_EncounterStaff_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.DepartmentUserRole.Table.sql",
+        "table_name": "dbo.DepartmentUserRole",
+        "columns": [
+            [
+                "RoleId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "UserId",
+                "[uniqueidentifier] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "RoleId ASC",
+                "DepartmentId ASC",
+                "UserId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.DepartmentUser",
+            "dbo.Role"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[DepartmentUserRole]  WITH CHECK ADD  CONSTRAINT [FK_DepartmentUserRole_DepartmentUser] FOREIGN KEY([DepartmentId], [UserId])\nREFERENCES [dbo].[DepartmentUser] ([DepartmentId], [UserId])",
+            "ALTER TABLE [dbo].[DepartmentUserRole] CHECK CONSTRAINT [FK_DepartmentUserRole_DepartmentUser]",
+            "ALTER TABLE [dbo].[DepartmentUserRole]  WITH CHECK ADD  CONSTRAINT [FK_DepartmentUserRole_Role] FOREIGN KEY([RoleId])\nREFERENCES [dbo].[Role] ([RoleId])",
+            "ALTER TABLE [dbo].[DepartmentUserRole] CHECK CONSTRAINT [FK_DepartmentUserRole_Role]"
+        ]
+    },
+    {
+        "file_name": "dbo.CPTModifier.Table.sql",
+        "table_name": "dbo.CPTModifier",
+        "columns": [
+            [
+                "CPTModifierId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "CPTModifierName",
+                "[nvarchar](12) NOT NULL"
+            ],
+            [
+                "CPTModifierDescription",
+                "[nvarchar](100) NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "CPTModifierId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[CPTModifier] ADD  CONSTRAINT [DF_CPTModifier_CPTModifierId]  DEFAULT (newid()) FOR [CPTModifierId]",
+            "ALTER TABLE [dbo].[CPTModifier] ADD  CONSTRAINT [DF_CPTModifier_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[CPTModifier] ADD  CONSTRAINT [DF_CPTModifier_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.InventoryLocation.Table.sql",
+        "table_name": "dbo.InventoryLocation",
+        "columns": [
+            [
+                "InventoryLocationId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InventoryLocationName",
+                "[nvarchar](75) NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InventoryLocationTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "LocationCode",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "DefaultLocation",
+                "[bit] NOT NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "InventoryLocationId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.InventoryLocationType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[InventoryLocation] ADD  CONSTRAINT [DF_InventoryLocation_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[InventoryLocation] ADD  CONSTRAINT [DF_InventoryLocation_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[InventoryLocation]  WITH CHECK ADD  CONSTRAINT [FK_InventoryLocation_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[InventoryLocation] CHECK CONSTRAINT [FK_InventoryLocation_Department]",
+            "ALTER TABLE [dbo].[InventoryLocation]  WITH CHECK ADD  CONSTRAINT [FK_InventoryLocation_InventoryLocationType] FOREIGN KEY([InventoryLocationTypeId])\nREFERENCES [dbo].[InventoryLocationType] ([InventoryLocationTypeId])",
+            "ALTER TABLE [dbo].[InventoryLocation] CHECK CONSTRAINT [FK_InventoryLocation_InventoryLocationType]"
+        ]
+    },
+    {
+        "file_name": "dbo.ProductVariant.Table.sql",
+        "table_name": "dbo.ProductVariant",
+        "columns": [
+            [
+                "ProductVariantId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProductId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "UPN",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "UnitOfMeasure",
+                "[nvarchar](4) NOT NULL"
+            ],
+            [
+                "QuantityInUOM",
+                "[int] NOT NULL"
+            ],
+            [
+                "AltUPN1",
+                "AS (left([UPN],len([UPN])-(1)))"
+            ],
+            [
+                "AltUPN2",
+                "AS (left([UPN],len([UPN])-(2)))"
+            ],
+            [
+                "AltUPN3",
+                "AS (substring([UPN],(2),len([UPN])-(2)))"
+            ],
+            [
+                "AltUPN4",
+                "AS (substring([UPN],(2),len([UPN])-(3)))"
+            ],
+            [
+                "GTIN",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "ItemId",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "Price",
+                "[money] NULL"
+            ],
+            [
+                "BillingCode",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "GLCode",
+                "[nvarchar](25) NULL"
+            ],
+            [
+                "SuggestedLaterality",
+                "[nvarchar](300) NULL"
+            ],
+            [
+                "AncillaryNotes",
+                "[nvarchar](500) NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ProductVariantId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Product"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ProductVariant] ADD  CONSTRAINT [DF_ProductVariant_ProductVariantId]  DEFAULT (newid()) FOR [ProductVariantId]",
+            "ALTER TABLE [dbo].[ProductVariant] ADD  CONSTRAINT [DF_ProductVariant_Inactive]  DEFAULT ((0)) FOR [Inactive]",
+            "ALTER TABLE [dbo].[ProductVariant] ADD  CONSTRAINT [DF_ProductVariant_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[ProductVariant] ADD  CONSTRAINT [DF_ProductVariant_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[ProductVariant]  WITH CHECK ADD  CONSTRAINT [FK_ProductVariant_Product] FOREIGN KEY([ProductId])\nREFERENCES [dbo].[Product] ([ProductId])",
+            "ALTER TABLE [dbo].[ProductVariant] CHECK CONSTRAINT [FK_ProductVariant_Product]",
+            "ALTER TABLE [dbo].[ProductVariant]  WITH CHECK ADD  CONSTRAINT [CK_ProductVariantAncillaryNotes] CHECK  ((Trim([AncillaryNotes])<>''))",
+            "ALTER TABLE [dbo].[ProductVariant] CHECK CONSTRAINT [CK_ProductVariantAncillaryNotes]",
+            "ALTER TABLE [dbo].[ProductVariant]  WITH CHECK ADD  CONSTRAINT [CK_ProductVariantGLCode] CHECK  ((Trim([GLCode])<>''))",
+            "ALTER TABLE [dbo].[ProductVariant] CHECK CONSTRAINT [CK_ProductVariantGLCode]",
+            "ALTER TABLE [dbo].[ProductVariant]  WITH CHECK ADD  CONSTRAINT [CK_ProductVariantGTIN] CHECK  ((Trim([GTIN])<>''))",
+            "ALTER TABLE [dbo].[ProductVariant] CHECK CONSTRAINT [CK_ProductVariantGTIN]",
+            "ALTER TABLE [dbo].[ProductVariant]  WITH CHECK ADD  CONSTRAINT [CK_ProductVariantPrice] CHECK  (([Price]>(0)))",
+            "ALTER TABLE [dbo].[ProductVariant] CHECK CONSTRAINT [CK_ProductVariantPrice]",
+            "ALTER TABLE [dbo].[ProductVariant]  WITH CHECK ADD  CONSTRAINT [CK_ProductVariantSuggestedLaterality] CHECK  ((Trim([SuggestedLaterality])<>''))",
+            "ALTER TABLE [dbo].[ProductVariant] CHECK CONSTRAINT [CK_ProductVariantSuggestedLaterality]"
+        ]
+    },
+    {
+        "file_name": "dbo.StaffDefault.Table.sql",
+        "table_name": "dbo.StaffDefault",
+        "columns": [
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "StaffTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "StaffId",
+                "[uniqueidentifier] NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "DepartmentId ASC",
+                "StaffTypeId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.Staff",
+            "dbo.StaffType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[StaffDefault]  WITH CHECK ADD  CONSTRAINT [FK_StaffDefault_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[StaffDefault] CHECK CONSTRAINT [FK_StaffDefault_Department]",
+            "ALTER TABLE [dbo].[StaffDefault]  WITH CHECK ADD  CONSTRAINT [FK_StaffDefault_Staff] FOREIGN KEY([StaffId])\nREFERENCES [dbo].[Staff] ([StaffId])",
+            "ALTER TABLE [dbo].[StaffDefault] CHECK CONSTRAINT [FK_StaffDefault_Staff]",
+            "ALTER TABLE [dbo].[StaffDefault]  WITH CHECK ADD  CONSTRAINT [FK_StaffDefault_StaffType] FOREIGN KEY([StaffTypeId])\nREFERENCES [dbo].[StaffType] ([StaffTypeId])",
+            "ALTER TABLE [dbo].[StaffDefault] CHECK CONSTRAINT [FK_StaffDefault_StaffType]"
+        ]
+    },
+    {
+        "file_name": "dbo.Role.Table.sql",
+        "table_name": "dbo.Role",
+        "columns": [
+            [
+                "RoleId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "RoleName",
+                "[nvarchar](100) NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "RoleId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Role] ADD  CONSTRAINT [DF_Role_RoleId]  DEFAULT (newid()) FOR [RoleId]"
+        ]
+    },
+    {
+        "file_name": "dbo.TissueInspection_TBD.Table.sql",
+        "table_name": "dbo.TissueInspection_TBD",
+        "columns": [
+            [
+                "TissueInspectionId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "TemperatureType",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "TemperatureRangeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "MeasuredTempUnit",
+                "[nchar](1) NOT NULL"
+            ],
+            [
+                "Status",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "InspectionNote",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "AdditionalTemperatureDetails",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "IsTissuePrepRequired",
+                "[bit] NOT NULL"
+            ],
+            [
+                "ReasonOfPassFail",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "TissueInspectionId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.TemperatureRange_TBD"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[TissueInspection_TBD] ADD  CONSTRAINT [DF_TissueInspection_TissueInspectionId]  DEFAULT (newid()) FOR [TissueInspectionId]",
+            "ALTER TABLE [dbo].[TissueInspection_TBD] ADD  CONSTRAINT [DF_TissueInspection_IsTissuePrepRequired]  DEFAULT ((0)) FOR [IsTissuePrepRequired]",
+            "ALTER TABLE [dbo].[TissueInspection_TBD] ADD  CONSTRAINT [DF_TissueInspection_TBD_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[TissueInspection_TBD] ADD  CONSTRAINT [DF_TissueInspection_TBD_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[TissueInspection_TBD]  WITH CHECK ADD  CONSTRAINT [FK_TissueInspection_TemperatureRange] FOREIGN KEY([TemperatureRangeId])\nREFERENCES [dbo].[TemperatureRange_TBD] ([TemperatureRangeId])",
+            "ALTER TABLE [dbo].[TissueInspection_TBD] CHECK CONSTRAINT [FK_TissueInspection_TemperatureRange]"
+        ]
+    },
+    {
+        "file_name": "dbo.TranslatedTemperature.Table.sql",
+        "table_name": "dbo.TranslatedTemperature",
+        "columns": [
+            [
+                "TranslatedTemperatureId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "TranslatedTemperatureName",
+                "[nvarchar](50) NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "TranslatedTemperatureId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[TranslatedTemperature] ADD  CONSTRAINT [DF_TranslatedTemperature_TranslatedTemperatureId]  DEFAULT (newid()) FOR [TranslatedTemperatureId]"
+        ]
+    },
+    {
+        "file_name": "dbo.ProductVariantOverride.Table.sql",
+        "table_name": "dbo.ProductVariantOverride",
+        "columns": [
+            [
+                "ProductVariantOverrideId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProductVariantId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "FacilityId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "ItemId",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "Price",
+                "[money] NULL"
+            ],
+            [
+                "BillingCode",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "GLCode",
+                "[nvarchar](25) NULL"
+            ],
+            [
+                "SuggestedLaterality",
+                "[nvarchar](300) NULL"
+            ],
+            [
+                "AncilliaryNotes",
+                "[nvarchar](500) NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ProductVariantOverrideId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.Facility",
+            "dbo.ProductVariant"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ProductVariantOverride] ADD  CONSTRAINT [DF_ProductVariantOverride_ProductVariantOverrideId]  DEFAULT (newid()) FOR [ProductVariantOverrideId]",
+            "ALTER TABLE [dbo].[ProductVariantOverride] ADD  CONSTRAINT [DF_ProductVariantOverride_Inactive]  DEFAULT ((0)) FOR [Inactive]",
+            "ALTER TABLE [dbo].[ProductVariantOverride]  WITH CHECK ADD  CONSTRAINT [FK_ProductVariantOverride_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[ProductVariantOverride] CHECK CONSTRAINT [FK_ProductVariantOverride_Department]",
+            "ALTER TABLE [dbo].[ProductVariantOverride]  WITH CHECK ADD  CONSTRAINT [FK_ProductVariantOverride_Facility] FOREIGN KEY([FacilityId])\nREFERENCES [dbo].[Facility] ([FacilityId])",
+            "ALTER TABLE [dbo].[ProductVariantOverride] CHECK CONSTRAINT [FK_ProductVariantOverride_Facility]",
+            "ALTER TABLE [dbo].[ProductVariantOverride]  WITH CHECK ADD  CONSTRAINT [FK_ProductVariantOverride_ProductVariant] FOREIGN KEY([ProductVariantId])\nREFERENCES [dbo].[ProductVariant] ([ProductVariantId])",
+            "ALTER TABLE [dbo].[ProductVariantOverride] CHECK CONSTRAINT [FK_ProductVariantOverride_ProductVariant]"
+        ]
+    },
+    {
+        "file_name": "dbo.ImplantTemperatureType.Table.sql",
+        "table_name": "dbo.ImplantTemperatureType",
+        "columns": [
+            [
+                "ImplantTemperatureTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ImplantTemperatureTypeName",
+                "[nvarchar](50) NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ImplantTemperatureTypeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ImplantTemperatureType] ADD  CONSTRAINT [DF_ImplantTemperatureType_ImplantTemperatureTypeId]  DEFAULT (newid()) FOR [ImplantTemperatureTypeId]"
+        ]
+    },
+    {
+        "file_name": "dbo.User.Table.sql",
+        "table_name": "dbo.User",
+        "columns": [
+            [
+                "UserId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "EmployeNumber",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "UserTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "FormOfAddressId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "LastName",
+                "[nvarchar](100) NULL"
+            ],
+            [
+                "FirstName",
+                "[nvarchar](100) NULL"
+            ],
+            [
+                "MiddleName",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "TitleId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "OfficePhone",
+                "[nvarchar](30) NULL"
+            ],
+            [
+                "MobilePhone",
+                "[nvarchar](30) NULL"
+            ],
+            [
+                "EmailAddress",
+                "[nvarchar](100) NOT NULL"
+            ],
+            [
+                "PasscardId",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "PasscardInternalId",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "StartPageId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "Deleted",
+                "[bit] NOT NULL"
+            ],
+            [
+                "PrivacyPolicyAccepted",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DisableNewUpdatePopup",
+                "[bit] NOT NULL"
+            ],
+            [
+                "PrivacyPolicyAcceptedDate",
+                "[datetime] NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "UserId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.FormOfAddress",
+            "dbo.StartPage",
+            "dbo.Title",
+            "dbo.UserType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[User] ADD  CONSTRAINT [DF_User_Deleted]  DEFAULT ((0)) FOR [Deleted]",
+            "ALTER TABLE [dbo].[User] ADD  CONSTRAINT [DF_User_PrivacyPolicyAccepted]  DEFAULT ((0)) FOR [PrivacyPolicyAccepted]",
+            "ALTER TABLE [dbo].[User] ADD  CONSTRAINT [DF_User_DisableNewUpdatePopup]  DEFAULT ((0)) FOR [DisableNewUpdatePopup]",
+            "ALTER TABLE [dbo].[User] ADD  CONSTRAINT [DF_User_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[User] ADD  CONSTRAINT [DF_User_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[User]  WITH CHECK ADD  CONSTRAINT [FK_User_FormOfAddress] FOREIGN KEY([FormOfAddressId])\nREFERENCES [dbo].[FormOfAddress] ([FormOfAddressId])",
+            "ALTER TABLE [dbo].[User] CHECK CONSTRAINT [FK_User_FormOfAddress]",
+            "ALTER TABLE [dbo].[User]  WITH CHECK ADD  CONSTRAINT [FK_User_StartPage] FOREIGN KEY([StartPageId])\nREFERENCES [dbo].[StartPage] ([StartPageId])",
+            "ALTER TABLE [dbo].[User] CHECK CONSTRAINT [FK_User_StartPage]",
+            "ALTER TABLE [dbo].[User]  WITH CHECK ADD  CONSTRAINT [FK_User_Title] FOREIGN KEY([TitleId])\nREFERENCES [dbo].[Title] ([TitleId])",
+            "ALTER TABLE [dbo].[User] CHECK CONSTRAINT [FK_User_Title]",
+            "ALTER TABLE [dbo].[User]  WITH CHECK ADD  CONSTRAINT [FK_User_UserType] FOREIGN KEY([UserTypeId])\nREFERENCES [dbo].[UserType] ([UserTypeId])",
+            "ALTER TABLE [dbo].[User] CHECK CONSTRAINT [FK_User_UserType]"
+        ]
+    },
+    {
+        "file_name": "dbo.Encounter.Table.sql",
+        "table_name": "dbo.Encounter",
+        "columns": [
+            [
+                "EncounterId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "CaseNumber",
+                "[int] IDENTITY(1,1) NOT NULL"
+            ],
+            [
+                "HospitalEncounterCode",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "ProcedureRoomId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "EncounterTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "PatientId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "PatientVisitId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "EncounterCostCenterId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "Comment",
+                "[nvarchar](1024) NULL"
+            ],
+            [
+                "AdmissionDate",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DischargeDate",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateStarted",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateCompleted",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "StatusId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "IsArchived",
+                "[bit] NOT NULL"
+            ],
+            [
+                "IsDeleted",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "EncounterId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.EncounterCostCenter",
+            "dbo.EncounterStatus",
+            "dbo.EncounterType",
+            "dbo.Patient",
+            "dbo.PatientVisit",
+            "dbo.ProcedureRoom"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Encounter] ADD  CONSTRAINT [DF_Encounter_EncounterId]  DEFAULT (newid()) FOR [EncounterId]",
+            "ALTER TABLE [dbo].[Encounter] ADD  CONSTRAINT [DF_Encounter_DateStarted]  DEFAULT (getdate()) FOR [DateStarted]",
+            "ALTER TABLE [dbo].[Encounter] ADD  CONSTRAINT [DF_Encounter_IsArchived]  DEFAULT ((0)) FOR [IsArchived]",
+            "ALTER TABLE [dbo].[Encounter] ADD  CONSTRAINT [DF_Encounter_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]",
+            "ALTER TABLE [dbo].[Encounter] ADD  CONSTRAINT [DF_Encounter_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[Encounter] ADD  CONSTRAINT [DF_Encounter_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[Encounter]  WITH CHECK ADD  CONSTRAINT [FK_Encounter_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[Encounter] CHECK CONSTRAINT [FK_Encounter_Department]",
+            "ALTER TABLE [dbo].[Encounter]  WITH CHECK ADD  CONSTRAINT [FK_Encounter_EncounterCostCenter] FOREIGN KEY([EncounterCostCenterId])\nREFERENCES [dbo].[EncounterCostCenter] ([EncounterCostCenterId])",
+            "ALTER TABLE [dbo].[Encounter] CHECK CONSTRAINT [FK_Encounter_EncounterCostCenter]",
+            "ALTER TABLE [dbo].[Encounter]  WITH CHECK ADD  CONSTRAINT [FK_Encounter_EncounterStatus] FOREIGN KEY([StatusId])\nREFERENCES [dbo].[EncounterStatus] ([StatusId])",
+            "ALTER TABLE [dbo].[Encounter] CHECK CONSTRAINT [FK_Encounter_EncounterStatus]",
+            "ALTER TABLE [dbo].[Encounter]  WITH CHECK ADD  CONSTRAINT [FK_Encounter_EncounterType] FOREIGN KEY([EncounterTypeId])\nREFERENCES [dbo].[EncounterType] ([EncounterTypeId])",
+            "ALTER TABLE [dbo].[Encounter] CHECK CONSTRAINT [FK_Encounter_EncounterType]",
+            "ALTER TABLE [dbo].[Encounter]  WITH CHECK ADD  CONSTRAINT [FK_Encounter_Patient] FOREIGN KEY([PatientId])\nREFERENCES [dbo].[Patient] ([PatientId])",
+            "ALTER TABLE [dbo].[Encounter] CHECK CONSTRAINT [FK_Encounter_Patient]",
+            "ALTER TABLE [dbo].[Encounter]  WITH CHECK ADD  CONSTRAINT [FK_Encounter_PatientVisit] FOREIGN KEY([PatientVisitId])\nREFERENCES [dbo].[PatientVisit] ([PatientVisitId])",
+            "ALTER TABLE [dbo].[Encounter] CHECK CONSTRAINT [FK_Encounter_PatientVisit]",
+            "ALTER TABLE [dbo].[Encounter]  WITH CHECK ADD  CONSTRAINT [FK_Encounter_ProcedureRoom] FOREIGN KEY([ProcedureRoomId])\nREFERENCES [dbo].[ProcedureRoom] ([ProcedureRoomId])",
+            "ALTER TABLE [dbo].[Encounter] CHECK CONSTRAINT [FK_Encounter_ProcedureRoom]"
+        ]
+    },
+    {
+        "file_name": "dbo.DepartmentUser.Table.sql",
+        "table_name": "dbo.DepartmentUser",
+        "columns": [
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "UserId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "DepartmentId ASC",
+                "UserId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.User"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[DepartmentUser] ADD  CONSTRAINT [DF_DepartmentUser_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[DepartmentUser] ADD  CONSTRAINT [DF_DepartmentUser_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[DepartmentUser]  WITH CHECK ADD  CONSTRAINT [FK_DepartmentUser_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[DepartmentUser] CHECK CONSTRAINT [FK_DepartmentUser_Department]",
+            "ALTER TABLE [dbo].[DepartmentUser]  WITH CHECK ADD  CONSTRAINT [FK_DepartmentUser_User] FOREIGN KEY([UserId])\nREFERENCES [dbo].[User] ([UserId])",
+            "ALTER TABLE [dbo].[DepartmentUser] CHECK CONSTRAINT [FK_DepartmentUser_User]"
+        ]
+    },
+    {
+        "file_name": "dbo.UserType.Table.sql",
+        "table_name": "dbo.UserType",
+        "columns": [
+            [
+                "UserTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "UserTypeName",
+                "[nvarchar](50) NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "UserTypeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": []
+    },
+    {
+        "file_name": "dbo.EncounterProductQuantityDetail_ToBeDeleted.Table.sql",
+        "table_name": "dbo.EncounterProductQuantityDetail_ToBeDeleted",
+        "columns": [
+            [
+                "EncounterProductQuantityDetailId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "EncounterProductId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProductVariantId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InventoryQuantityId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "Quantity",
+                "[int] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "EncounterProductQuantityDetailId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.InventoryQuantity"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[EncounterProductQuantityDetail_ToBeDeleted] ADD  CONSTRAINT [DF_EncounterProductQuantityDetail_EncounterProductQuantityDetailId]  DEFAULT (newid()) FOR [EncounterProductQuantityDetailId]",
+            "ALTER TABLE [dbo].[EncounterProductQuantityDetail_ToBeDeleted] ADD  CONSTRAINT [DF_EncounterProductQuantityDetail_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[EncounterProductQuantityDetail_ToBeDeleted] ADD  CONSTRAINT [DF_EncounterProductQuantityDetail_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[EncounterProductQuantityDetail_ToBeDeleted]  WITH CHECK ADD  CONSTRAINT [FK_EncounterProductQuantityDetail_InventoryQuantity] FOREIGN KEY([InventoryQuantityId])\nREFERENCES [dbo].[InventoryQuantity] ([InventoryQuantityId])",
+            "ALTER TABLE [dbo].[EncounterProductQuantityDetail_ToBeDeleted] CHECK CONSTRAINT [FK_EncounterProductQuantityDetail_InventoryQuantity]"
+        ]
+    },
+    {
+        "file_name": "dbo.DepartmentType.Table.sql",
+        "table_name": "dbo.DepartmentType",
+        "columns": [
+            [
+                "DepartmentTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentTypeName",
+                "[nvarchar](100) NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "DepartmentTypeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[DepartmentType] ADD  CONSTRAINT [DF_DepartmentType_DepartmentTypeId]  DEFAULT (newid()) FOR [DepartmentTypeId]",
+            "ALTER TABLE [dbo].[DepartmentType] ADD  CONSTRAINT [DF_DepartmentType_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[DepartmentType] ADD  CONSTRAINT [DF_DepartmentType_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.InventoryLocationType.Table.sql",
+        "table_name": "dbo.InventoryLocationType",
+        "columns": [
+            [
+                "InventoryLocationTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InventoryLocationTypeName",
+                "[nvarchar](100) NOT NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "InventoryLocationTypeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[InventoryLocationType] ADD  CONSTRAINT [DF_InventoryLocationType_InventoryLocationTypeId]  DEFAULT (newid()) FOR [InventoryLocationTypeId]",
+            "ALTER TABLE [dbo].[InventoryLocationType] ADD  CONSTRAINT [DF_InventoryLocationType_Inactive]  DEFAULT ((0)) FOR [Inactive]"
+        ]
+    },
+    {
+        "file_name": "dbo.PatientType_ToBeDeleted.Table.sql",
+        "table_name": "dbo.PatientType_ToBeDeleted",
+        "columns": [
+            [
+                "PatientTypeId",
+                "[uniqueidentifier] ROWGUIDCOL  NOT NULL"
+            ],
+            [
+                "Name",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "PatientTypeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[PatientType_ToBeDeleted] ADD  CONSTRAINT [DF_PatientType_PatientTypeId]  DEFAULT (newid()) FOR [PatientTypeId]",
+            "ALTER TABLE [dbo].[PatientType_ToBeDeleted] ADD  CONSTRAINT [DF_PatientType_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[PatientType_ToBeDeleted] ADD  CONSTRAINT [DF_PatientType_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.ImplantInspectionReason.Table.sql",
+        "table_name": "dbo.ImplantInspectionReason",
+        "columns": [
+            [
+                "ImplantChainOfCustodyId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InspectionReasonType",
+                "[nchar](4) NOT NULL"
+            ],
+            [
+                "InspectionReasonName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[date] NOT NULL"
+            ],
+            [
+                "UserId",
+                "[uniqueidentifier] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ImplantChainOfCustodyId ASC",
+                "InspectionReasonType ASC",
+                "InspectionReasonName ASC",
+                "DateCreated ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.ImplantChainOfCustody",
+            "dbo.User"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ImplantInspectionReason] ADD  CONSTRAINT [DF_ImplantInspectionReason_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[ImplantInspectionReason]  WITH CHECK ADD  CONSTRAINT [FK_ImplantInspectionReason_ImplantChainOfCustody] FOREIGN KEY([ImplantChainOfCustodyId])\nREFERENCES [dbo].[ImplantChainOfCustody] ([ImplantChainOfCustodyId])",
+            "ALTER TABLE [dbo].[ImplantInspectionReason] CHECK CONSTRAINT [FK_ImplantInspectionReason_ImplantChainOfCustody]",
+            "ALTER TABLE [dbo].[ImplantInspectionReason]  WITH CHECK ADD  CONSTRAINT [FK_ImplantInspectionReason_User] FOREIGN KEY([UserId])\nREFERENCES [dbo].[User] ([UserId])",
+            "ALTER TABLE [dbo].[ImplantInspectionReason] CHECK CONSTRAINT [FK_ImplantInspectionReason_User]",
+            "ALTER TABLE [dbo].[ImplantInspectionReason]  WITH CHECK ADD  CONSTRAINT [CK_ImplantInspectionReason_InspectionReasonType_Pass_Fail] CHECK  (([InspectionReasonType]='Fail' OR [InspectionReasonType]='Pass'))",
+            "ALTER TABLE [dbo].[ImplantInspectionReason] CHECK CONSTRAINT [CK_ImplantInspectionReason_InspectionReasonType_Pass_Fail]"
+        ]
+    },
+    {
+        "file_name": "dbo.EncounterProcedure.Table.sql",
+        "table_name": "dbo.EncounterProcedure",
+        "columns": [
+            [
+                "EncounterProcedureId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "EncounterId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "CptCodeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "CaseSpecificProcedureCode",
+                "[nvarchar](255) NULL"
+            ],
+            [
+                "ProcedureDateTime",
+                "[datetime] NULL"
+            ],
+            [
+                "CPTModifierId1",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "CPTModifierId2",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "CPTModifierId3",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "CPTModifierId4",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "CPTModifierId5",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "BillingExportId",
+                "[uniqueidentifier] NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "EncounterProcedureId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.CPTCode",
+            "dbo.Encounter"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[EncounterProcedure] ADD  CONSTRAINT [DF_EncounterProcedure_EncounterProcedureId]  DEFAULT (newid()) FOR [EncounterProcedureId]",
+            "ALTER TABLE [dbo].[EncounterProcedure] ADD  CONSTRAINT [DF_Procedures_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[EncounterProcedure] ADD  CONSTRAINT [DF_Procedures_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[EncounterProcedure]  WITH CHECK ADD  CONSTRAINT [FK_EncounterProcedure_CPTCode] FOREIGN KEY([CptCodeId])\nREFERENCES [dbo].[CPTCode] ([CPTCodeId])",
+            "ALTER TABLE [dbo].[EncounterProcedure] CHECK CONSTRAINT [FK_EncounterProcedure_CPTCode]",
+            "ALTER TABLE [dbo].[EncounterProcedure]  WITH CHECK ADD  CONSTRAINT [FK_EncounterProcedure_Encounter] FOREIGN KEY([EncounterId])\nREFERENCES [dbo].[Encounter] ([EncounterId])",
+            "ALTER TABLE [dbo].[EncounterProcedure] CHECK CONSTRAINT [FK_EncounterProcedure_Encounter]"
+        ]
+    },
+    {
+        "file_name": "dbo.ContactInformation_ToBeDeleted.Table.sql",
+        "table_name": "dbo.ContactInformation_ToBeDeleted",
+        "columns": [
+            [
+                "ContactInformationId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "PhoneNumber",
+                "[nvarchar](15) NOT NULL"
+            ],
+            [
+                "CompleteAddress",
+                "[nvarchar](max) NOT NULL"
+            ],
+            [
+                "Street",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "Zip",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "City",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "State",
+                "[nvarchar](50) NULL"
+            ],
+            [
+                "PatientId",
+                "[uniqueidentifier] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ContactInformationId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Patient"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ContactInformation_ToBeDeleted] ADD  DEFAULT (newid()) FOR [ContactInformationId]",
+            "ALTER TABLE [dbo].[ContactInformation_ToBeDeleted]  WITH CHECK ADD  CONSTRAINT [FK_ContactInformation_Patient] FOREIGN KEY([PatientId])\nREFERENCES [dbo].[Patient] ([PatientId])",
+            "ALTER TABLE [dbo].[ContactInformation_ToBeDeleted] CHECK CONSTRAINT [FK_ContactInformation_Patient]"
+        ]
+    },
+    {
+        "file_name": "dbo.Side.Table.sql",
+        "table_name": "dbo.Side",
+        "columns": [
+            [
+                "SideId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "SideName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "SideId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[Side] ADD  CONSTRAINT [DF_Side_SideId]  DEFAULT (newid()) FOR [SideId]",
+            "ALTER TABLE [dbo].[Side] ADD  CONSTRAINT [DF_Side_Inactive]  DEFAULT ((0)) FOR [Inactive]",
+            "ALTER TABLE [dbo].[Side] ADD  CONSTRAINT [DF_Side_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[Side] ADD  CONSTRAINT [DF_Side_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.VisitType.Table.sql",
+        "table_name": "dbo.VisitType",
+        "columns": [
+            [
+                "VisitTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "VisitTypeName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "Inactive",
+                "[bit] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "VisitTypeId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[VisitType] ADD  CONSTRAINT [DF_VisitType_VisitTypeId]  DEFAULT (newid()) FOR [VisitTypeId]",
+            "ALTER TABLE [dbo].[VisitType] ADD  CONSTRAINT [DF_VisitType_Inactive]  DEFAULT ((0)) FOR [Inactive]",
+            "ALTER TABLE [dbo].[VisitType] ADD  CONSTRAINT [DF_VisitType_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[VisitType] ADD  CONSTRAINT [DF_VisitType_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]"
+        ]
+    },
+    {
+        "file_name": "dbo.EncounterDeletionReason.Table.sql",
+        "table_name": "dbo.EncounterDeletionReason",
+        "columns": [
+            [
+                "EncounterDeletionReasonId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "EncounterId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "Reason",
+                "[nvarchar](255) NOT NULL"
+            ],
+            [
+                "UserId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "EncounterDeletionReasonId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Encounter",
+            "dbo.User"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[EncounterDeletionReason] ADD  CONSTRAINT [DF_EncounterDeletionReason_EncounterDeletionReasonId]  DEFAULT (newid()) FOR [EncounterDeletionReasonId]",
+            "ALTER TABLE [dbo].[EncounterDeletionReason] ADD  CONSTRAINT [DF_EncounterDeletionReason_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[EncounterDeletionReason] ADD  CONSTRAINT [DF_EncounterDeletionReason_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[EncounterDeletionReason]  WITH CHECK ADD  CONSTRAINT [FK_EncounterDeletionReason_Encounter] FOREIGN KEY([EncounterId])\nREFERENCES [dbo].[Encounter] ([EncounterId])",
+            "ALTER TABLE [dbo].[EncounterDeletionReason] CHECK CONSTRAINT [FK_EncounterDeletionReason_Encounter]",
+            "ALTER TABLE [dbo].[EncounterDeletionReason]  WITH CHECK ADD  CONSTRAINT [FK_EncounterDeletionReason_User] FOREIGN KEY([UserId])\nREFERENCES [dbo].[User] ([UserId])",
+            "ALTER TABLE [dbo].[EncounterDeletionReason] CHECK CONSTRAINT [FK_EncounterDeletionReason_User]"
+        ]
+    },
+    {
+        "file_name": "dbo.ImplantPreparationMethod.Table.sql",
+        "table_name": "dbo.ImplantPreparationMethod",
+        "columns": [
+            [
+                "ImplantPreparationMethodId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ImplantPreparationMethodName",
+                "[nvarchar](50) NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ImplantPreparationMethodId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ImplantPreparationMethod] ADD  CONSTRAINT [DF_ImplantPreparationMethod_ImplantPreparationMethodId]  DEFAULT (newid()) FOR [ImplantPreparationMethodId]"
+        ]
+    },
+    {
+        "file_name": "dbo.ManufacturerOverride.Table.sql",
+        "table_name": "dbo.ManufacturerOverride",
+        "columns": [
+            [
+                "ManufacturerOverrideId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ManufacturerCode",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "ManufacturerId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "FacilityId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DepartmentId",
+                "[uniqueidentifier] NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "ManufacturerOverrideId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.Department",
+            "dbo.Facility",
+            "dbo.Manufacturer"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ManufacturerOverride] ADD  CONSTRAINT [DF_ManufacturerOverride_ManufacturerOverrideId]  DEFAULT (newid()) FOR [ManufacturerOverrideId]",
+            "ALTER TABLE [dbo].[ManufacturerOverride]  WITH CHECK ADD  CONSTRAINT [FK_ManufacturerOverride_Department] FOREIGN KEY([DepartmentId])\nREFERENCES [dbo].[Department] ([DepartmentId])",
+            "ALTER TABLE [dbo].[ManufacturerOverride] CHECK CONSTRAINT [FK_ManufacturerOverride_Department]",
+            "ALTER TABLE [dbo].[ManufacturerOverride]  WITH CHECK ADD  CONSTRAINT [FK_ManufacturerOverride_Facility] FOREIGN KEY([FacilityId])\nREFERENCES [dbo].[Facility] ([FacilityId])",
+            "ALTER TABLE [dbo].[ManufacturerOverride] CHECK CONSTRAINT [FK_ManufacturerOverride_Facility]",
+            "ALTER TABLE [dbo].[ManufacturerOverride]  WITH CHECK ADD  CONSTRAINT [FK_ManufacturerOverride_Manufacturer] FOREIGN KEY([ManufacturerId])\nREFERENCES [dbo].[Manufacturer] ([ManufacturerId])",
+            "ALTER TABLE [dbo].[ManufacturerOverride] CHECK CONSTRAINT [FK_ManufacturerOverride_Manufacturer]"
+        ]
+    },
+    {
+        "file_name": "dbo.EncounterType.Table.sql",
+        "table_name": "dbo.EncounterType",
+        "columns": [
+            [
+                "EncounterTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "EncounterTypeName",
+                "[nvarchar](100) NOT NULL"
+            ],
+            [
+                "EncounterTypeGroup",
+                "[nvarchar](10) NOT NULL"
+            ],
+            [
+                "DepartmentTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "EncounterTypeId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.DepartmentType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[EncounterType] ADD  CONSTRAINT [DF_EncounterType_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[EncounterType] ADD  CONSTRAINT [DF_EncounterType_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[EncounterType]  WITH CHECK ADD  CONSTRAINT [FK_EncounterType_DepartmentType] FOREIGN KEY([DepartmentTypeId])\nREFERENCES [dbo].[DepartmentType] ([DepartmentTypeId])",
+            "ALTER TABLE [dbo].[EncounterType] CHECK CONSTRAINT [FK_EncounterType_DepartmentType]",
+            "ALTER TABLE [dbo].[EncounterType]  WITH CHECK ADD  CONSTRAINT [CK_EncounterType_EncounterTypeGroup] CHECK  (([EncounterTypeGroup]='custom' OR [EncounterTypeGroup]='standard'))",
+            "ALTER TABLE [dbo].[EncounterType] CHECK CONSTRAINT [CK_EncounterType_EncounterTypeGroup]"
+        ]
+    },
+    {
+        "file_name": "dbo.ProductVariantUOMType.Table.sql",
+        "table_name": "dbo.ProductVariantUOMType",
+        "columns": [
+            [
+                "UOMTypeId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "ProductVariantId",
+                "[uniqueidentifier] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "UOMTypeId ASC",
+                "ProductVariantId ASC"
+            ]
+        },
+        "foreign_keys": [
+            "dbo.ProductVariant",
+            "dbo.UOMType"
+        ],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[ProductVariantUOMType]  WITH CHECK ADD  CONSTRAINT [FK_ProductVariantUOMType_ProductVariant] FOREIGN KEY([ProductVariantId])\nREFERENCES [dbo].[ProductVariant] ([ProductVariantId])",
+            "ALTER TABLE [dbo].[ProductVariantUOMType] CHECK CONSTRAINT [FK_ProductVariantUOMType_ProductVariant]",
+            "ALTER TABLE [dbo].[ProductVariantUOMType]  WITH CHECK ADD  CONSTRAINT [FK_ProductVariantUOMType_UOMType] FOREIGN KEY([UOMTypeId])\nREFERENCES [dbo].[UOMType] ([UOMTypeId])",
+            "ALTER TABLE [dbo].[ProductVariantUOMType] CHECK CONSTRAINT [FK_ProductVariantUOMType_UOMType]"
+        ]
+    },
+    {
+        "file_name": "dbo.InspectionReason.Table.sql",
+        "table_name": "dbo.InspectionReason",
+        "columns": [
+            [
+                "InspectionReasonId",
+                "[uniqueidentifier] NOT NULL"
+            ],
+            [
+                "InspectionReasonName",
+                "[nvarchar](50) NOT NULL"
+            ],
+            [
+                "InspectionReasonType",
+                "[nchar](4) NULL"
+            ],
+            [
+                "DateCreated",
+                "[datetime] NOT NULL"
+            ],
+            [
+                "DateLastModified",
+                "[datetime] NOT NULL"
+            ]
+        ],
+        "constraints": {
+            "Primary Keys": [
+                "InspectionReasonId ASC"
+            ]
+        },
+        "foreign_keys": [],
+        "alter_commands": [
+            "ALTER TABLE [dbo].[InspectionReason] ADD  CONSTRAINT [DF_InspectionReason_InspectionReasonId]  DEFAULT (newid()) FOR [InspectionReasonId]",
+            "ALTER TABLE [dbo].[InspectionReason] ADD  CONSTRAINT [DF_InspectionReason_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]",
+            "ALTER TABLE [dbo].[InspectionReason] ADD  CONSTRAINT [DF_InspectionReason_DateLastModified]  DEFAULT (getdate()) FOR [DateLastModified]",
+            "ALTER TABLE [dbo].[InspectionReason]  WITH CHECK ADD  CONSTRAINT [CK_InspectionReason_InspectionReasonType_Pass_Fail] CHECK  (([InspectionReasonType]='Fail' OR [InspectionReasonType]='Pass'))",
+            "ALTER TABLE [dbo].[InspectionReason] CHECK CONSTRAINT [CK_InspectionReason_InspectionReasonType_Pass_Fail]"
+        ]
+    }
+]
