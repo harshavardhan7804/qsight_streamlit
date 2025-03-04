@@ -1,13 +1,13 @@
 --upgrade pip
-streamlit==1.30.0
-pandas==2.1.0
-requests==2.31.0
-python-dotenv==1.0.0
-chromadb==0.4.10
-langchain==0.1.0
-google-auth==2.23.4
-google-auth-oauthlib==1.2.0
-google-auth-httplib2==0.1.0
-google-auth-transport==0.1.0
-vertexai==1.0.0
-google-cloud-aiplatform==1.35.0
+streamlit
+pandas
+requests
+python-dotenv
+chromadb
+langchain
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-auth-transport
+vertexai
+google-cloud-aiplatform
