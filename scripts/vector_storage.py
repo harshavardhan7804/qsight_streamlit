@@ -82,7 +82,7 @@ class ChromaDBHandler:
     """
 
     def __init__(self, embedding_function: EmbeddingFunction):
-        self.client = chromadb.PersistentClient(path="./vector_database")
+        self.client = chromadb.PersistentClient(path="./vector_database", database = "duckdb")
         self.embedding_function = embedding_function
 
     def get_or_create_collection(self, collection_name: str):
