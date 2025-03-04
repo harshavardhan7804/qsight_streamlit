@@ -3,6 +3,7 @@ pandas
 requests
 python-dotenv
 chromadb
+duckdb
 langchain
 google-auth
 google-auth-oauthlib
