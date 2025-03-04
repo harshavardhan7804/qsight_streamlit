@@ -1,7 +1,6 @@
 import streamlit as st
 import json
 import os
-from dotenv import load_dotenv
 import re
 import pandas as pd
 from scripts.vector_storage import VertexAIEmbeddingFunction, ChromaDBHandler
